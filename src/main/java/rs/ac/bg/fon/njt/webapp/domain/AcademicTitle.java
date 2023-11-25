@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Objects;
  * @author aleks
  */
 @Entity
-public class AcademicTitle{
+@Table(name = "academictitle")
+public class AcademicTitle{ 
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

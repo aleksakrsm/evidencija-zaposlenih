@@ -6,6 +6,7 @@ package rs.ac.bg.fon.njt.webapp.domain;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -15,6 +16,7 @@ import java.util.Objects;
  * @author aleks
  */
 @Entity
+@Table(name = "employeeacademictitle")
 public class EmployeeAcademicTitle {
 
     @EmbeddedId
