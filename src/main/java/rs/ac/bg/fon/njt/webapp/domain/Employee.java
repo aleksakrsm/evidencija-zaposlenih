@@ -6,6 +6,8 @@ package rs.ac.bg.fon.njt.webapp.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,6 +44,7 @@ public class Employee{
     @JoinColumn(name = "educationtitle", referencedColumnName = "id")
     private EducationTitle educationTitle;
     
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Employee() {

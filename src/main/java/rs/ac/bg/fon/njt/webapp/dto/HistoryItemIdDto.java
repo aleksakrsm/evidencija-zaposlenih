@@ -4,13 +4,17 @@
  */
 package rs.ac.bg.fon.njt.webapp.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 /**
  *
  * @author aleks
  */
 public class HistoryItemIdDto {
     
+    @NotNull(message = "employee je obavezno polje")
     private EmployeeDto employee;
+    @NotNull(message = "akademska titula je obavezno polje")
     private AcademicTitleDto academicTitle;
 
     public HistoryItemIdDto() {

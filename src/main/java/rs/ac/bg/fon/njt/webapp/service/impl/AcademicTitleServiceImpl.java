@@ -30,8 +30,16 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
     private AcademicTitleMapper academicTitleMapper;
 
     @Override
-    public AcademicTitleDto save(AcademicTitleDto academicTitleDto){
-        Optional<AcademicTitle> optional = academicTitleRepository.findByName(academicTitleDto.getName());
+    public AcademicTitleDto save(AcademicTitleDto academicTitleDto) {
+        Optional<AcademicTitle> optional;
+        if (academicTitleDto.getId() != null) {
+            optional = academicTitleRepository.findById(academicTitleDto.getId());
+            if(optional.isPresent())
+                throw new InvalidDataException("vec postoji titula sa ovim id!");
+        }
+
+        optional = null;
+        optional = academicTitleRepository.findByName(academicTitleDto.getName());
         if (optional.isPresent()) {
             throw new InvalidDataException("vec postoji sa tim nazivom");
         }
@@ -43,11 +51,12 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
     }
 
     @Override
-    public AcademicTitleDto edit(AcademicTitleDto academicTitleDto){
+    public AcademicTitleDto edit(AcademicTitleDto academicTitleDto) {
         Optional<AcademicTitle> optional = academicTitleRepository.findById(academicTitleDto.getId());
         if (!optional.isPresent()) {
             throw new InvalidDataException("ne postoji sa tim ID");
         }
+        optional = null;
         optional = academicTitleRepository.findByName(academicTitleDto.getName());
         if (optional.isPresent()) {
             throw new InvalidDataException("vec postoji sa tim nazivom");
@@ -66,7 +75,7 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
     }
 
     @Override
-    public AcademicTitleDto findById(Long id){
+    public AcademicTitleDto findById(Long id) {
         Optional<AcademicTitle> optional = academicTitleRepository.findById(id);
         if (!optional.isPresent()) {
             throw new InvalidDataException("ne postoji sa tim id");
@@ -86,7 +95,7 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
     }
 
     @Override
-    public void delete(Long id){
+    public void delete(Long id) {
         Optional<AcademicTitle> optional = academicTitleRepository.findById(id);
         if (!optional.isPresent()) {
             throw new InvalidDataException("ne postoji sa tim id");

@@ -31,7 +31,15 @@ public class EducationTitleServiceImpl implements EducationTitleService {
 
     @Override
     public EducationTitleDto save(EducationTitleDto educationTitleDto) {
-        Optional<EducationTitle> optional = educationTitleRepository.findByName(educationTitleDto.getName());
+        Optional<EducationTitle> optional;
+        if (educationTitleDto.getId() != null) {
+            optional = educationTitleRepository.findById(educationTitleDto.getId());
+            if(optional.isPresent())
+                throw new InvalidDataException("vec postoji titula sa ovim id!");
+        }
+
+        optional = null;
+        optional = educationTitleRepository.findByName(educationTitleDto.getName());
         if (optional.isPresent()) {
             throw new InvalidDataException("vec postoji EducationTitle sa tim nazivom");
         }
@@ -48,6 +56,7 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         if (!optional.isPresent()) {
             throw new InvalidDataException("ne postoji educationTitle sa tim ID");
         }
+        optional = null;
         optional = educationTitleRepository.findByName(educationTitleDto.getName());
         if (optional.isPresent()) {
             throw new InvalidDataException("vec postoji educationTitle sa tim nazivom");

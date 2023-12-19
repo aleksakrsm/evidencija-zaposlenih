@@ -71,6 +71,16 @@
                             <version>1.5.5.Final</version>
                         </path>
                     </annotationProcessorPaths>
+                    
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>
+                            -Amapstruct.verbose=true
+                        </arg>
+                    </compilerArgs>
+                    
+                    
+                    
                 </configuration>
             </plugin>
             
