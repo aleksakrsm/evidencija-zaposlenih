@@ -167,7 +167,7 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
         if(optionalEmployee.isEmpty())
             throw new InvalidDataException("zaposleni sa tim id ne postoji");
         
-        return historyItemRepository.findByEmployeeOrderByBeginDateAsc(employeeDto.getId()).stream().
+        return historyItemRepository.findByEmployeeIdOrderByBeginDateAsc(employeeDto.getId()).stream().
                 map(dao -> historyItemMapper.historyItemToHistoryItemDto(dao)).
                 collect(Collectors.toList());
         

@@ -7,6 +7,7 @@ package rs.ac.bg.fon.njt.webapp.repository;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import rs.ac.bg.fon.njt.webapp.domain.EmployeeAcademicTitle;
 import rs.ac.bg.fon.njt.webapp.domain.HistoryItemID;
@@ -17,7 +18,7 @@ import rs.ac.bg.fon.njt.webapp.domain.HistoryItemID;
  */
 @Repository
 public interface EmployeeAcademicTitleRepository extends JpaRepository<EmployeeAcademicTitle, HistoryItemID>{
-//    @Query(value = "SELECT * FROM employeeacademictitle WHERE employee = :employeeId ORDER BY begindate ASC ", nativeQuery = true)
-//    List<EmployeeAcademicTitle> findByEmployeeIdOrderByBeginDateAsc(@Param("employeeId") Long employeeId);
-    List<EmployeeAcademicTitle> findByEmployeeOrderByBeginDateAsc(Long employeeId);
+    @Query(value = "SELECT * FROM employeeacademictitle WHERE employee = :employeeId ORDER BY begindate ASC ", nativeQuery = true)
+    List<EmployeeAcademicTitle> findByEmployeeIdOrderByBeginDateAsc(@Param("employeeId") Long employeeId);
+//    List<EmployeeAcademicTitle> findByEmployeeOrderByBeginDateAsc(Long employeeId);
 }
