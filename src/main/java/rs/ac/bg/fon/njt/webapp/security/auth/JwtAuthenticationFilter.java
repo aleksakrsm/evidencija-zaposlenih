@@ -13,7 +13,9 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -55,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println(username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            System.out.println("u filteru u if statementu---------------------");
             //u ovom slucaju treba da izvrsim autentikaciju
             //proveriti korisnika iz baze
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -64,7 +67,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //                Object details = new CustomWebAuthenticationDetailsSource().buildDetails(request);
                 Object details = new WebAuthenticationDetailsSource().buildDetails(request);
                 authToken.setDetails(details);
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
+                SecurityContextHolder.setContext(new SecurityContextImpl(authToken));
             }
         }
         filterChain.doFilter(request, response);

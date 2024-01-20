@@ -10,12 +10,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
  *
  * @author aleks
  */
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Department {
 
@@ -26,42 +35,9 @@ public class Department {
     @Column(name = "shortname")
     private String shortName;
 
-    public Department() {
-    }
-
     public Department(String name, String shortName) {
         this.name = name;
         this.shortName = shortName;
-    }
-
-    public Department(Long id, String name, String shortName) {
-        this.id = id;
-        this.name = name;
-        this.shortName = shortName;
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -89,7 +65,5 @@ public class Department {
         final Department other = (Department) obj;
         return Objects.equals(this.id, other.id);
     }
-
-   
 
 }

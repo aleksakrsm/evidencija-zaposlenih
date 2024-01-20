@@ -10,6 +10,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import rs.ac.bg.fon.njt.webapp.domain.Status;
 import rs.ac.bg.fon.njt.webapp.validator.MyBirthdayValidator;
 import rs.ac.bg.fon.njt.webapp.validator.MyStatusValidator;
@@ -18,6 +22,10 @@ import rs.ac.bg.fon.njt.webapp.validator.MyStatusValidator;
  *
  * @author aleks
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeDto {
     
     private Long id;
@@ -52,9 +60,6 @@ public class EmployeeDto {
     @MyStatusValidator
     private Status status;
 
-    public EmployeeDto() {
-    }
-
     public EmployeeDto(String firstname, String lastname, LocalDate birthday, DepartmentDto department, AcademicTitleDto academicTitle, EducationTitleDto educationTitle, Status status) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -62,81 +67,6 @@ public class EmployeeDto {
         this.department = department;
         this.academicTitle = academicTitle;
         this.educationTitle = educationTitle;
-        this.status = status;
-    }
-
-    public EmployeeDto(Long id, String firstname, String lastname, LocalDate birthday, DepartmentDto department, AcademicTitleDto academicTitle, EducationTitleDto educationTitle, Status status) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthday = birthday;
-        this.department = department;
-        this.academicTitle = academicTitle;
-        this.educationTitle = educationTitle;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public DepartmentDto getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(DepartmentDto department) {
-        this.department = department;
-    }
-
-    public AcademicTitleDto getAcademicTitle() {
-        return academicTitle;
-    }
-
-    public void setAcademicTitle(AcademicTitleDto academicTitle) {
-        this.academicTitle = academicTitle;
-    }
-
-    public EducationTitleDto getEducationTitle() {
-        return educationTitle;
-    }
-
-    public void setEducationTitle(EducationTitleDto educationTitle) {
-        this.educationTitle = educationTitle;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
         this.status = status;
     }
 

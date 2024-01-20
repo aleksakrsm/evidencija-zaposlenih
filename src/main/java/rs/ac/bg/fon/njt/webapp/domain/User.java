@@ -11,6 +11,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Collection;
 import java.util.List;
@@ -21,63 +26,65 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import rs.ac.bg.fon.njt.webapp.security.Role;
-
+import rs.ac.bg.fon.njt.webapp.validator.MyRoleValidator;
 
 /**
  *
  * @author aleks
  */
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "_user")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @NotBlank(message = "Firstname is mandatory")
+    @Size(min = 3, max = 30, message = "Firstname must contain between 3 and 30 characters")
+    @Pattern(regexp = "^[A-Z][a-z]+$",
+            message = "Name must start with capital letter and contain only letters. Other letters must be lowercase.")
     private String firstname;
-    
+
+    @NotBlank(message = "Lastname is mandatory")
+    @Size(min = 3, max = 30, message = "Lastname must contain between 3 and 30 characters")
+    @Pattern(regexp = "^[A-Z][a-z]+$",
+            message = "Lastname must start with capital letter and contain only letters. Other letters must be lowercase.")
     private String lastname;
-    
+
+    @NotBlank(message = "Username is mandatory")
     private String username;
-    
+
+    @NotBlank(message = "Email is mandatory")
+    @Email(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$",
+            message = "Please provide valid email adress")
     private String email;
-    
+
+    @NotBlank(message = "Password is mandatory")
+//    @Pattern
     private String password;
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    
     
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role is mandatory")
+    @MyRoleValidator
     private Role role;
-    
-    
+
+    public User(String firstname, String lastname, String username, String email, String password, Role role) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override
@@ -99,46 +106,5 @@ public class User implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    
     
 }

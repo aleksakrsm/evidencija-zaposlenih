@@ -9,12 +9,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
  *
  * @author aleks
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "employeeacademictitle")
 public class EmployeeAcademicTitle {
@@ -24,39 +32,6 @@ public class EmployeeAcademicTitle {
     
     private LocalDate beginDate;
     private LocalDate endDate;
-
-    public EmployeeAcademicTitle() {
-    }
-
-    public EmployeeAcademicTitle(HistoryItemID historyItemID, LocalDate beginDate, LocalDate endDate) {
-        this.historyItemID = historyItemID;
-        this.beginDate = beginDate;
-        this.endDate = endDate;
-    }
-
-    public HistoryItemID getHistoryItemID() {
-        return historyItemID;
-    }
-
-    public void setHistoryItemID(HistoryItemID historyItemID) {
-        this.historyItemID = historyItemID;
-    }
-
-    public LocalDate getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
 
     @Override
     public int hashCode() {

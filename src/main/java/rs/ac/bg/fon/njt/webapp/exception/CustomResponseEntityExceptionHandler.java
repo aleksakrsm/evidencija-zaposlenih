@@ -4,6 +4,8 @@
  */
 package rs.ac.bg.fon.njt.webapp.exception;
 
+import jakarta.validation.ConstraintViolationException;
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,8 +32,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {InvalidDataException.class, IllegalArgumentException.class})
-    public ResponseEntity handleInvalidDataException(InvalidDataException ex) {
+    @ExceptionHandler(value = {InvalidDataException.class, IllegalArgumentException.class,ConstraintViolationException.class})
+    public ResponseEntity handleInvalidDataException(Exception ex) {
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
@@ -41,13 +44,19 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ex.printStackTrace();
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(value = {AuthenticationException.class, AccessDeniedException.class})
+    public ResponseEntity<Object> handleSecurityAuthException(Exception ex, WebRequest request) {
+        // OptimisticLockingFailureException je ovde obradjen
+        ex.printStackTrace();
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+        @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleDataAccessException(RuntimeException ex, WebRequest request) {
         //ovde su svi neproveravani izuzeci koje mozda nisam prethodno obradio
         ex.printStackTrace();
         return new ResponseEntity<>("UNCHECKED EXCEPTION: /n"+ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String, String> errors = new HashMap();

@@ -16,12 +16,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
  *
  * @author aleks
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Employee{
 
@@ -47,8 +55,6 @@ public class Employee{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Employee() {
-    }
     public Employee(String firstname, String lastname, LocalDate birthday, 
             Department department, AcademicTitle academicTitle, EducationTitle educationTitle, Status status) {
         this.firstname = firstname;
@@ -60,84 +66,8 @@ public class Employee{
         this.status = status;
     }
 
-    public Employee(Long id, String firstname, String lastname, LocalDate birthday, Department department, AcademicTitle academicTitle, EducationTitle educationTitle, Status status) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.birthday = birthday;
-        this.department = department;
-        this.academicTitle = academicTitle;
-        this.educationTitle = educationTitle;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public AcademicTitle getAcademicTitle() {
-        return academicTitle;
-    }
-
-    public void setAcademicTitle(AcademicTitle academicTitle) {
-        this.academicTitle = academicTitle;
-    }
-
-    public EducationTitle getEducationTitle() {
-        return educationTitle;
-    }
-
-    public void setEducationTitle(EducationTitle educationTitle) {
-        this.educationTitle = educationTitle;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
-//        return id+" "+firstname+" "+birthday+" "+department+" "+academicTitle+" "+educationTitle+" "+status;
         return id + " " + firstname + " " + birthday + " " + department + " " + academicTitle + " " + educationTitle + " " + status + "";
     }
 

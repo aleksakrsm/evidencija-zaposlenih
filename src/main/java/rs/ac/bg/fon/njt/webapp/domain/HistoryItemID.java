@@ -9,11 +9,19 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
  * @author aleks
  */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class HistoryItemID {
     
@@ -25,22 +33,4 @@ public class HistoryItemID {
     @JoinColumn(name = "academictitle", referencedColumnName = "id")    
     private AcademicTitle academicTitle;
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public AcademicTitle getAcademicTitle() {
-        return academicTitle;
-    }
-
-    public void setAcademicTitle(AcademicTitle academicTitle) {
-        this.academicTitle = academicTitle;
-    }
- 
-    
-    
 }

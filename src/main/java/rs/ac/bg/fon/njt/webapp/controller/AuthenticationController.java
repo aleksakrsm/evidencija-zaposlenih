@@ -4,16 +4,17 @@
  */
 package rs.ac.bg.fon.njt.webapp.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rs.ac.bg.fon.njt.webapp.security.auth.AuthenticationRequest;
-import rs.ac.bg.fon.njt.webapp.security.auth.AuthenticationResponse;
+import rs.ac.bg.fon.njt.webapp.security.communication.AuthenticationRequest;
+import rs.ac.bg.fon.njt.webapp.security.communication.AuthenticationResponse;
 import rs.ac.bg.fon.njt.webapp.security.service.AuthenticationService;
-import rs.ac.bg.fon.njt.webapp.security.auth.RegisterRequest;
+import rs.ac.bg.fon.njt.webapp.security.communication.RegisterRequest;
 
 /**
  *
@@ -26,13 +27,14 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
     
-    @PostMapping("/register")// samo admin moze da registruje novog korinika
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
         return ResponseEntity.ok(authenticationService.register(request));
     }
     
-    @PostMapping("/authenticate")//svako ko hoce da ima nalog za aplikaciju u zaposlene i katedre i sl???
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody AuthenticationRequest request){
+        System.out.println("=============AUTHENTICATE======================"+request.getUsername());
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
     

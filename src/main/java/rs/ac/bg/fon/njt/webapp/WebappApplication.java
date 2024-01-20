@@ -11,7 +11,7 @@ public class WebappApplication {
         System.setProperty("server.servlet.context-path", "/webapp");
         
         SpringApplication.run(WebappApplication.class, args);
-   
+
     }
 
 }

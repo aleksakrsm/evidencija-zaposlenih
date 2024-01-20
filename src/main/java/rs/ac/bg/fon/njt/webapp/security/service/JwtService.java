@@ -31,40 +31,47 @@ public class JwtService {
         return extractClaim(jwt, Claims::getSubject);
     }
 
-    
-    
     public Claims extractAllClaims(String jwt) {
-        return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJwt(jwt).getBody();
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(
+                        getSignInKey()
+                )
+                .build()
+                .parseClaimsJws(jwt)
+                .getBody();
     }
 
     private Key getSignInKey() {
+        System.out.println("kljuc pre____________" + signingKey);
         byte[] keyBytes = Decoders.BASE64.decode(signingKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+        System.out.println("___________Decoders.BASE64.decode(kljuc) ____________" + keyBytes);
+        Key key = Keys.hmacShaKeyFor(keyBytes);
+        System.out.println("kljuc posle hmacShaKeyFor____________" + key);
+        return key;//vraca tajni kljuc
     }
 
-    public <T> T extractClaim(String jwt, Function<Claims,T> claimsResolver){
+    public <T> T extractClaim(String jwt, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(jwt);
         return claimsResolver.apply(claims);
     }
-    
-    
-    
-    
-    public String generateToken(Map<String,Object> extraClaims,UserDetails userDetails){
+
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1*60*60*1000))
-                .signWith(getSignInKey(),SignatureAlgorithm.HS256).compact();
+                .setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 60 * 1000))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
-    public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(),userDetails);
+
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
     }
-    
-    public boolean isTokenValid(String jwt,UserDetails userDetails){
+
+    public boolean isTokenValid(String jwt, UserDetails userDetails) {
         final String username = extractUsername(jwt);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(jwt);
+        return username.equals(userDetails.getUsername()) && !isTokenExpired(jwt);//pa kako moze prvi uslov da bude F
     }
 
     private boolean isTokenExpired(String jwt) {
