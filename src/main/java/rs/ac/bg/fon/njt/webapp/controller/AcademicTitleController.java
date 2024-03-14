@@ -4,6 +4,7 @@
  */
 package rs.ac.bg.fon.njt.webapp.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

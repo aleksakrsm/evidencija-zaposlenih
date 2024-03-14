@@ -32,5 +32,5 @@ public class AcademicTitleDto {
     public AcademicTitleDto(String name) {
         this.name = name;
     }
-
+    
 }
