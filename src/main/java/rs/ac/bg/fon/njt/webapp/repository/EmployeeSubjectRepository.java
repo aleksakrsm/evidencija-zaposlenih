@@ -4,16 +4,18 @@
  */
 package rs.ac.bg.fon.njt.webapp.repository;
 
-import java.util.Optional;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import rs.ac.bg.fon.njt.webapp.domain.User;
+import rs.ac.bg.fon.njt.webapp.domain.EmployeeSubject;
+import rs.ac.bg.fon.njt.webapp.domain.EmployeeSubjectID;
 
 /**
  *
  * @author aleks
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
-    Optional<User> findByUsername(String username);
+public interface EmployeeSubjectRepository extends JpaRepository<EmployeeSubject, EmployeeSubjectID>{
+    List<EmployeeSubject> findByIdEmployeeId(Long id);
+    List<EmployeeSubject> findByIdSubjectId(Long id);
 }

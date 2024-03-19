@@ -11,19 +11,18 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
 
 /**
  *
  * @author aleks
  */
-@Constraint(validatedBy = MyStatusCheckValidator.class)
+@Constraint(validatedBy = MyClassTypeCheckValidator.class)
 @Target(value = {ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface MyStatusValidator {
+public @interface MyClassTypeValidator {
 
-    String message() default "Status can be only ACTIVE or INACTIVE";
+    String message() default "Class type can be only LECTURES, PRACTICALS or COMBINED";
 
     Class<?>[] groups() default {};
 

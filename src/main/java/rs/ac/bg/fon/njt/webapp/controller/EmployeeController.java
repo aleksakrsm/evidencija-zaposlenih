@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rs.ac.bg.fon.njt.webapp.domain.Status;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
+import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.DepartmentDto;
+import rs.ac.bg.fon.njt.webapp.dto.EducationTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeDto;
+import rs.ac.bg.fon.njt.webapp.dto.EmployeeFilterDto;
 import rs.ac.bg.fon.njt.webapp.service.EmployeeService;
 
 /**
@@ -36,7 +39,24 @@ public class EmployeeController {
     public ResponseEntity getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.findAll());
     }
+    @PostMapping("/status")
+    public ResponseEntity status(@RequestBody Status status) {
+        System.out.println("-------");
+        System.out.println(status);
+        System.out.println("-------");
+        //posaljem samo kao json "INACTIVE"
+        System.out.println("");
+        return ResponseEntity.status(HttpStatus.OK).body(status);
+    }
+    @PostMapping("/filter")
+    public ResponseEntity filterEmployees(@RequestBody EmployeeFilterDto filterDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.filter(filterDto));
+    }
 
+    @GetMapping("/search/{term}")
+    public ResponseEntity getById(@PathVariable(name = "term") String term) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(employeeService.search(term));
+    }
     @GetMapping("/getById/{id}")
     public ResponseEntity getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.FOUND).body(employeeService.findById(id));

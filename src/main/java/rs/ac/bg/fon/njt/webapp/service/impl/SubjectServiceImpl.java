@@ -1,0 +1,108 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package rs.ac.bg.fon.njt.webapp.service.impl;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import rs.ac.bg.fon.njt.webapp.converter.SubjectMapper;
+import rs.ac.bg.fon.njt.webapp.domain.Subject;
+import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
+import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
+import rs.ac.bg.fon.njt.webapp.repository.SubjectRepository;
+import rs.ac.bg.fon.njt.webapp.service.SubjectService;
+
+/**
+ *
+ * @author aleks
+ */
+@Service
+public class SubjectServiceImpl implements SubjectService {
+
+    @Autowired
+    private SubjectRepository subjectRepository;
+
+    @Autowired
+    private SubjectMapper subjectMapper;
+
+    @Override
+    public SubjectDto save(SubjectDto subjectDto) {
+        Optional<Subject> optional;
+        if (subjectDto.getId() != null) {
+            optional = subjectRepository.findById(subjectDto.getId());
+            if (optional.isPresent()) {
+                throw new InvalidDataException("vec postoji subject sa ovim id!");
+            }
+        }
+        optional = null;
+        optional = subjectRepository.findByName(subjectDto.getName());
+        if (optional.isPresent()) {
+            throw new InvalidDataException("vec postoji sa tim nazivom");
+        }
+        Subject subject = subjectMapper.subjectDtoToSubject(subjectDto);
+//        subject.setId(null);
+        return subjectMapper.subjectToSubjectDto(
+                subjectRepository.save(subject)
+        );
+    }
+
+    @Override
+    public SubjectDto edit(SubjectDto subjectDto) {
+
+        Optional<Subject> optional = subjectRepository.findById(subjectDto.getId());
+        if (!optional.isPresent()) {
+            throw new InvalidDataException("ne postoji sa tim ID");
+        }
+        optional = null;
+        optional = subjectRepository.findByName(subjectDto.getName());
+        if (optional.isPresent()) {
+            throw new InvalidDataException("vec postoji sa tim nazivom");
+        }
+        Subject subject = subjectMapper.subjectDtoToSubject(subjectDto);
+        return subjectMapper.subjectToSubjectDto(
+                subjectRepository.save(subject)
+        );
+    }
+
+    @Override
+    public List<SubjectDto> findAll() {
+        return subjectRepository.findAll().stream().map(
+                dao -> subjectMapper.subjectToSubjectDto(dao)
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public SubjectDto findById(Long id) {
+        Optional<Subject> optional = subjectRepository.findById(id);
+        if (!optional.isPresent()) {
+            throw new InvalidDataException("ne postoji sa tim id");
+        } else {
+            return subjectMapper.subjectToSubjectDto(optional.get());
+        }
+    }
+
+    @Override
+    public SubjectDto findByName(String name) {
+        Optional<Subject> optional = subjectRepository.findByName(name);
+        if (!optional.isPresent()) {
+            throw new InvalidDataException("ne postoji sa tim imenom");
+        } else {
+            return subjectMapper.subjectToSubjectDto(optional.get());
+        }
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Subject> optional = subjectRepository.findById(id);
+        if (!optional.isPresent()) {
+            throw new InvalidDataException("ne postoji sa tim id");
+        } else {
+            subjectRepository.delete(optional.get());
+        }
+    }
+
+}

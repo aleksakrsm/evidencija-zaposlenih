@@ -17,13 +17,13 @@ import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
  *
  * @author aleks
  */
-@Constraint(validatedBy = MyStatusCheckValidator.class)
+@Constraint(validatedBy = MyCourseTypeCheckValidator.class)
 @Target(value = {ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface MyStatusValidator {
+public @interface MyCourseTypeValidator {
 
-    String message() default "Status can be only ACTIVE or INACTIVE";
+    String message() default "Course type can be only ELECTIVE, REQUIRED or ALTERNATIVE";
 
     Class<?>[] groups() default {};
 

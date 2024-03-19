@@ -7,19 +7,19 @@ package rs.ac.bg.fon.njt.webapp.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.EnumSet;
-import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
+import rs.ac.bg.fon.njt.webapp.domain.enums.CourseType;
 
 /**
  *
  * @author aleks
  */
-public class MyStatusCheckValidator implements ConstraintValidator<MyStatusValidator, Status>{
+public class MyCourseTypeCheckValidator implements ConstraintValidator<MyCourseTypeValidator, CourseType>{
 
     @Override
-    public boolean isValid(Status t, ConstraintValidatorContext cvc) {
+    public boolean isValid(CourseType t, ConstraintValidatorContext cvc) {
         if(t==null)
             return true;
-        return EnumSet.allOf(Status.class).stream().anyMatch(value -> value.name().equals(t.name()));
+        return EnumSet.allOf(CourseType.class).stream().anyMatch(value -> value.name().equals(t.name()));
     }
     
 }

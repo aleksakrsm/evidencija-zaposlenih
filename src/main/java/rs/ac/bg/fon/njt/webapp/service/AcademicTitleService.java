@@ -20,13 +20,5 @@ public interface AcademicTitleService {
     AcademicTitleDto findById(Long id);
     AcademicTitleDto findByName(String name);
     void delete(Long id);
-    
-    
-//    AcademicTitleDto save(AcademicTitleDto academicTitleDto) throws Exception;
-//    AcademicTitleDto edit(AcademicTitleDto academicTitleDto) throws Exception;
-//    List<AcademicTitleDto> findAll();
-//    AcademicTitleDto findById(Long id) throws Exception;
-//    AcademicTitleDto findByName(String name);
-//    void delete(Long id) throws Exception;
 
 }

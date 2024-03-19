@@ -7,8 +7,8 @@ package rs.ac.bg.fon.njt.webapp.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.EnumSet;
-import rs.ac.bg.fon.njt.webapp.domain.Status;
-import rs.ac.bg.fon.njt.webapp.domain.Role;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Role;
 
 /**
  *

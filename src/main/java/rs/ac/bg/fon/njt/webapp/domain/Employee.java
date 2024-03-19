@@ -4,6 +4,7 @@
  */
 package rs.ac.bg.fon.njt.webapp.domain;
 
+import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

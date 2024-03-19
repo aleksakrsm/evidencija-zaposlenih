@@ -14,7 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import rs.ac.bg.fon.njt.webapp.domain.Status;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
 import rs.ac.bg.fon.njt.webapp.validator.MyBirthdayValidator;
 import rs.ac.bg.fon.njt.webapp.validator.MyStatusValidator;
 

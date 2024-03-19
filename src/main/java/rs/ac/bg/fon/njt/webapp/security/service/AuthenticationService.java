@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.njt.webapp.domain.User;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 import rs.ac.bg.fon.njt.webapp.repository.UserRepository;
-import rs.ac.bg.fon.njt.webapp.domain.Role;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Role;
 import rs.ac.bg.fon.njt.webapp.security.communication.AuthenticationRequest;
 import rs.ac.bg.fon.njt.webapp.security.communication.AuthenticationResponse;
 import rs.ac.bg.fon.njt.webapp.security.communication.RegisterRequest;

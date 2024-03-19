@@ -6,19 +6,22 @@ package rs.ac.bg.fon.njt.webapp.repository;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import rs.ac.bg.fon.njt.webapp.domain.AcademicTitle;
 import rs.ac.bg.fon.njt.webapp.domain.Department;
 import rs.ac.bg.fon.njt.webapp.domain.EducationTitle;
 import rs.ac.bg.fon.njt.webapp.domain.Employee;
-import rs.ac.bg.fon.njt.webapp.domain.Status;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
 
 
 /**
  *
  * @author aleks
  */
-public interface EmployeeRepository extends JpaRepository<Employee, Long>{
+public interface EmployeeRepository extends JpaRepository<Employee, Long>,JpaSpecificationExecutor<Employee>{
+    List<Employee> findAll(Specification<Employee> specification);
     List<Employee> findByFirstname(String firstname);
     List<Employee> findByLastname(String lastname);
     List<Employee> findByDepartmentId(Long id);

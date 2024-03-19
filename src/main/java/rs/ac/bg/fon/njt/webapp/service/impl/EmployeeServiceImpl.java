@@ -17,14 +17,18 @@ import rs.ac.bg.fon.njt.webapp.domain.AcademicTitle;
 import rs.ac.bg.fon.njt.webapp.domain.Department;
 import rs.ac.bg.fon.njt.webapp.domain.EducationTitle;
 import rs.ac.bg.fon.njt.webapp.domain.Employee;
-import rs.ac.bg.fon.njt.webapp.domain.Status;
+import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
+import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.DepartmentDto;
+import rs.ac.bg.fon.njt.webapp.dto.EducationTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeDto;
+import rs.ac.bg.fon.njt.webapp.dto.EmployeeFilterDto;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 import rs.ac.bg.fon.njt.webapp.repository.AcademicTitleRepository;
 import rs.ac.bg.fon.njt.webapp.repository.DepartmentRepository;
 import rs.ac.bg.fon.njt.webapp.repository.EducationTitleRepository;
 import rs.ac.bg.fon.njt.webapp.repository.EmployeeRepository;
+import rs.ac.bg.fon.njt.webapp.repository.specifications.EmployeeSpecification;
 import rs.ac.bg.fon.njt.webapp.service.EmployeeService;
 
 /**
@@ -52,11 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService{
 //    @Autowired
 //    private DepartmentMapper departmentMapper;
 //    
-//    @Autowired
-//    private AcademicTitleMapper academicTitleMapper;
-//
-//    @Autowired
-//    private EducationTitleMapper educationTitleMapper;
+    @Autowired
+    private AcademicTitleMapper academicTitleMapper;
+
+    @Autowired
+    private EducationTitleMapper educationTitleMapper;
     
     
     
@@ -147,7 +151,23 @@ public class EmployeeServiceImpl implements EmployeeService{
                 dao->employeeMapper.employeeToEmployeeDto(dao)
         ).collect(Collectors.toList());
     }
-
+    @Override
+    public List<EmployeeDto> filter(EmployeeFilterDto filterDto) {
+        System.out.println("----------------------------------------------filter metoda---------------------------------------");
+        System.out.println(filterDto);
+        
+        return employeeRepository.findAll(EmployeeSpecification.filterEmployees(filterDto)).stream().map(
+                dao->employeeMapper.employeeToEmployeeDto(dao)
+        ).collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<EmployeeDto> search(String term){        
+        return employeeRepository.findAll(EmployeeSpecification.searchEmployees(term.trim())).stream().map(
+                dao->employeeMapper.employeeToEmployeeDto(dao)
+        ).collect(Collectors.toList());
+    }
+    
     @Override
     public EmployeeDto findById(Long id) {
             Optional<Employee> optional = employeeRepository.findById(id);
@@ -193,6 +213,8 @@ public class EmployeeServiceImpl implements EmployeeService{
             employeeRepository.delete(optional.get());
         }
     }
+
+    
     
     
             
