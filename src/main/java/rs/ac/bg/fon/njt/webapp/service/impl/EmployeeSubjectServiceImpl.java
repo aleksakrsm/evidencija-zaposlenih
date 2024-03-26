@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.njt.webapp.converter.EmployeeSubjectMapper;
 import rs.ac.bg.fon.njt.webapp.domain.EmployeeSubject;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectDto;
-import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectIdDto;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 import rs.ac.bg.fon.njt.webapp.repository.EmployeeRepository;
 import rs.ac.bg.fon.njt.webapp.repository.EmployeeSubjectRepository;

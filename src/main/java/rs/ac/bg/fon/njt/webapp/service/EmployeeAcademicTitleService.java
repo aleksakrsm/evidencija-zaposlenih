@@ -17,7 +17,6 @@ public interface EmployeeAcademicTitleService {
     EmployeeAcademicTitleDto save(EmployeeAcademicTitleDto historyItemDto);
     List<EmployeeAcademicTitleDto> saveAll(List<EmployeeAcademicTitleDto> historyItemsDto);
     EmployeeAcademicTitleDto edit(EmployeeAcademicTitleDto historyItemDto);
-//    List<EmployeeAcademicTitleDto> findAll();
     EmployeeAcademicTitleDto findById(HistoryItemIdDto idDto);
     List<EmployeeAcademicTitleDto> findByEmployee(EmployeeDto employeeDto);
     void delete(HistoryItemIdDto idDto);

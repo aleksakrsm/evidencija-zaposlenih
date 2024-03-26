@@ -6,7 +6,6 @@ package rs.ac.bg.fon.njt.webapp.service;
 
 import java.util.List;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectDto;
-import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectIdDto;
 
 /**
  *

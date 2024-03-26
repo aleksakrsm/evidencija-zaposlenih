@@ -5,10 +5,7 @@
 package rs.ac.bg.fon.njt.webapp.converter;
 
 import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import rs.ac.bg.fon.njt.webapp.domain.Employee;
 import rs.ac.bg.fon.njt.webapp.domain.Subject;
-import rs.ac.bg.fon.njt.webapp.dto.EmployeeDto;
 import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
 
 /**

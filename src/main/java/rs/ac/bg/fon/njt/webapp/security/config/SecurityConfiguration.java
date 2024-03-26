@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,7 +23,8 @@ import rs.ac.bg.fon.njt.webapp.security.auth.JwtAuthenticationFilter;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+@EnableMethodSecurity
+public class SecurityConfiguration{
 
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -32,8 +35,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                //                .csrf(csrf->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))//dobijem token ali sta onda sa njim da radim
+                //.csrf(csrf->csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))//dobijem token ali sta onda sa njim da radim
                 .csrf(csrf -> csrf.disable())
+//                .cors(cors->cors.configure(Cust))
+//                .cors(cors -> cors.disable())
                 //TODO remember me ? ? ? 
                 .authorizeHttpRequests(
                         (authorise) -> authorise
@@ -46,4 +51,9 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }
+
+    @Bean
+    static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults("");
+    }    
 }

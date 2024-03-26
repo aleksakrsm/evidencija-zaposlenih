@@ -22,7 +22,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface MyClassTypeValidator {
 
-    String message() default "Class type can be only LECTURES, PRACTICALS or COMBINED";
+    String message() default "Class type can be only LECTURES or PRACTICALS";
 
     Class<?>[] groups() default {};
 

@@ -13,9 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import rs.ac.bg.fon.njt.webapp.domain.enums.CourseType;
 import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
-import rs.ac.bg.fon.njt.webapp.validator.MyCourseTypeValidator;
 import rs.ac.bg.fon.njt.webapp.validator.MyStudiesTypeValidator;
 
 /**
@@ -39,8 +37,7 @@ public class SubjectDto {
     @Min(value = 1, message = "Minimal ects value is 1")
     @Max(value = 10, message = "Maximal ects value is 10")
     private int ects;
-    @MyCourseTypeValidator
-    private CourseType courseType;
+    
     @MyStudiesTypeValidator
     private StudiesType studiesType;
 

@@ -5,7 +5,6 @@
 package rs.ac.bg.fon.njt.webapp.dto;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

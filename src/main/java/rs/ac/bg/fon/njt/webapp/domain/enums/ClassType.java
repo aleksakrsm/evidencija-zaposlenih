@@ -4,12 +4,13 @@
  */
 package rs.ac.bg.fon.njt.webapp.domain.enums;
 
+import java.io.Serializable;
+
 /**
  *
  * @author aleks
  */
-public enum ClassType {
+public enum ClassType implements Serializable{
     LECTURES,
-    PRACTICALS,
-    COMBINED
+    PRACTICALS
 }

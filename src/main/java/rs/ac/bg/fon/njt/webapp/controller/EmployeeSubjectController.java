@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rs.ac.bg.fon.njt.webapp.dto.EmployeeDto;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectDto;
-import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectIdDto;
 import rs.ac.bg.fon.njt.webapp.service.EmployeeSubjectService;
 
 
@@ -29,10 +29,11 @@ import rs.ac.bg.fon.njt.webapp.service.EmployeeSubjectService;
  */
 @RestController
 @RequestMapping("/employeeSubject")
+@CrossOrigin("*")
 public class EmployeeSubjectController {
     @Autowired
     private EmployeeSubjectService employeeSubjectService;
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody EmployeeSubjectDto employeeSubjectDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeSubjectService.save(employeeSubjectDto));
@@ -43,6 +44,7 @@ public class EmployeeSubjectController {
 //        return ResponseEntity.status(HttpStatus.CREATED).body(employeeSubjectService.saveAll(employeeSubjectsDto));
 //    }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity update(@Valid @RequestBody EmployeeSubjectDto dto) {
             return ResponseEntity.status(HttpStatus.OK).body(employeeSubjectService.edit(dto));
@@ -57,15 +59,12 @@ public class EmployeeSubjectController {
     public ResponseEntity getBySubject(@PathVariable Long subjectId) {
         return new ResponseEntity(employeeSubjectService.findBySubject(subjectId), HttpStatus.OK);
     }
-    
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete")
     public ResponseEntity delete(@Valid @RequestBody EmployeeSubjectDto dto) {
             employeeSubjectService.delete(dto);
             return ResponseEntity.status(HttpStatus.OK).
                     body("izbrisan je EmployeeSubject predmet: " + dto.getId().getSubject().getName() + " zaposlenog: " + dto.getId().getEmployee().getFirstname());
     }
-    
-    
-    
     
 }

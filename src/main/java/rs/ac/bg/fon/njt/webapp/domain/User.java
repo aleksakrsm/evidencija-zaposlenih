@@ -17,7 +17,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -66,7 +65,6 @@ public class User implements UserDetails {
     private String email;
 
     @NotBlank(message = "Password is mandatory")
-//    @Pattern
     private String password;
     
     @Enumerated(EnumType.STRING)

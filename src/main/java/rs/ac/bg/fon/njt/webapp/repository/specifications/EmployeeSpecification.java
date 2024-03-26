@@ -6,7 +6,6 @@ package rs.ac.bg.fon.njt.webapp.repository.specifications;
 
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 import rs.ac.bg.fon.njt.webapp.domain.Employee;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeFilterDto;
@@ -21,17 +20,16 @@ public class EmployeeSpecification {
         return ((root, query, criteriaBuilder) -> {
             Predicate academicTitlePredicate
                     = criteriaBuilder.like(root.get("academicTitle"),
-                            (filterDto.getAcademicTitleId() == null) ? likePattern("") : filterDto.getAcademicTitleId().intValue() + "");
+                            (filterDto.getAcademicTitleId() == -1l) ? likePattern("") : filterDto.getAcademicTitleId().intValue() + "");
+//                            (filterDto.getAcademicTitleId() == null) ? likePattern("") : filterDto.getAcademicTitleId().intValue() + "");
             Predicate educationTitlePredicate
                     = criteriaBuilder.like(root.get("educationTitle"),
-                            (filterDto.getEducationTitleId() == null) ? likePattern("") : filterDto.getEducationTitleId().intValue() + "");
+                            (filterDto.getEducationTitleId() == -1l) ? likePattern("") : filterDto.getEducationTitleId().intValue() + "");
             Predicate departmentPredicate
                     = criteriaBuilder.like(root.get("department"),
-                            (filterDto.getDepartmentId() == null) ? likePattern("") : filterDto.getDepartmentId().intValue() + "");
+                            (filterDto.getDepartmentId() == -1l) ? likePattern("") : filterDto.getDepartmentId().intValue() + "");
             Predicate statusPredicate
                     = criteriaBuilder.equal(root.get("status"), filterDto.getStatus());
-//            Join<Employee,EmployeeSubject> employeeEmployeeSubject = root.join("employeeSubject");
-//            Predicate subjectPredicate = employeeEmployeeSubject.equals(employeeEmployeeSubject.get(string))
             return criteriaBuilder.and(academicTitlePredicate, educationTitlePredicate, departmentPredicate, statusPredicate);
         });
     }

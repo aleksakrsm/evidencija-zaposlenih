@@ -18,7 +18,6 @@ import rs.ac.bg.fon.njt.webapp.domain.enums.Role;
 import rs.ac.bg.fon.njt.webapp.security.communication.AuthenticationRequest;
 import rs.ac.bg.fon.njt.webapp.security.communication.AuthenticationResponse;
 import rs.ac.bg.fon.njt.webapp.security.communication.RegisterRequest;
-import rs.ac.bg.fon.njt.webapp.security.service.JwtService;
 
 /**
  *
@@ -74,6 +73,12 @@ public class AuthenticationService {
                         )
                 );
         User user = optional.get();
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println("=====================================================================");
+        System.out.println(user.getAuthorities().toString());
         String jwt = jwtService.generateToken(user);
         return new AuthenticationResponse(jwt);
     }

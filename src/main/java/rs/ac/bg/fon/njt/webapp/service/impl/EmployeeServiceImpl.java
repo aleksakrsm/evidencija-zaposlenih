@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.njt.webapp.converter.AcademicTitleMapper;
-import rs.ac.bg.fon.njt.webapp.converter.DepartmentMapper;
 import rs.ac.bg.fon.njt.webapp.converter.EducationTitleMapper;
 import rs.ac.bg.fon.njt.webapp.converter.EmployeeMapper;
 import rs.ac.bg.fon.njt.webapp.domain.AcademicTitle;
@@ -18,9 +19,7 @@ import rs.ac.bg.fon.njt.webapp.domain.Department;
 import rs.ac.bg.fon.njt.webapp.domain.EducationTitle;
 import rs.ac.bg.fon.njt.webapp.domain.Employee;
 import rs.ac.bg.fon.njt.webapp.domain.enums.Status;
-import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.DepartmentDto;
-import rs.ac.bg.fon.njt.webapp.dto.EducationTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeDto;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeFilterDto;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
@@ -145,6 +144,44 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeMapper.employeeToEmployeeDto(employeeRepository.save(employee));
     }
 
+    @Override
+    public List<EmployeeDto> findAll(Pageable pageable){
+        Page<Employee> pageEmp = employeeRepository.findAll(pageable);
+        if(pageEmp.getTotalPages()<pageable.getPageNumber()){
+            System.out.println("NE POSTOJI STRANA");
+            throw new InvalidDataException("ne postoji strana");
+        }
+        return pageEmp.getContent().stream().
+                map(dao->employeeMapper.employeeToEmployeeDto(dao)).collect(Collectors.toList());
+    }
+    @Override
+    public Page<EmployeeDto> pageFilterPaginate(EmployeeFilterDto filterDto,Pageable pageable){
+        Page<Employee> pageEmp = employeeRepository.findAll(EmployeeSpecification.filterEmployees(filterDto),pageable);
+        if(pageEmp.getTotalPages()<=pageable.getPageNumber()){
+            System.out.println("NE POSTOJI STRANA");
+            throw new InvalidDataException("ne postoji strana");
+        }
+        Page<EmployeeDto> dtoPage = pageEmp.map(this::convertToDto);
+        return dtoPage;
+    }
+    private EmployeeDto convertToDto(Employee employee) {
+        return employeeMapper.employeeToEmployeeDto(employee);
+    }
+    @Override
+    public List<EmployeeDto> filterPaginate(EmployeeFilterDto filterDto,Pageable pageable){
+        Page<Employee> pageEmp = employeeRepository.findAll(EmployeeSpecification.filterEmployees(filterDto),pageable);
+        System.out.print("-----------page no -------");
+        System.out.println(pageable.getPageNumber());
+        System.out.print("-----------total -------");
+        System.out.println(pageEmp.getTotalPages());
+        if(pageEmp.getTotalPages()<=pageable.getPageNumber()){
+            System.out.println("NE POSTOJI STRANA");
+            throw new InvalidDataException("ne postoji strana");
+        }
+        return pageEmp.getContent().stream().
+                map(dao->employeeMapper.employeeToEmployeeDto(dao)).collect(Collectors.toList());
+    }
+    
     @Override
     public List<EmployeeDto> findAll() {
         return employeeRepository.findAll().stream().map(

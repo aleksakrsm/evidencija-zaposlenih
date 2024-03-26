@@ -13,7 +13,6 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +21,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-//import rs.ac.bg.fon.njt.webapp.security.auth.CustomWebAuthenticationDetailsSource;
 import rs.ac.bg.fon.njt.webapp.security.service.JwtService;
-import rs.ac.bg.fon.njt.webapp.service.impl.UserDetailsServiceImpl;
 
 /**
  *
@@ -64,10 +61,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken
                         = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                Object details = new CustomWebAuthenticationDetailsSource().buildDetails(request);
                 Object details = new WebAuthenticationDetailsSource().buildDetails(request);
                 authToken.setDetails(details);
-//                SecurityContextHolder.getContext().setAuthentication(authToken);
                 SecurityContextHolder.setContext(new SecurityContextImpl(authToken));
             }
         }

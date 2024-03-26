@@ -4,11 +4,13 @@
  */
 package rs.ac.bg.fon.njt.webapp.domain.enums;
 
+import java.io.Serializable;
+
 /**
  *
  * @author aleks
  */
-public enum Role {
+public enum Role implements Serializable{
     USER,
     ADMIN
 }

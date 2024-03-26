@@ -5,8 +5,6 @@
 package rs.ac.bg.fon.njt.webapp.converter;
 
 import org.mapstruct.Mapper;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.Mapping;
 import rs.ac.bg.fon.njt.webapp.domain.AcademicTitle;
 import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 

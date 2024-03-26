@@ -6,7 +6,6 @@ package rs.ac.bg.fon.njt.webapp.service;
 
 import java.util.List;
 import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
-import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 
 /**
  *

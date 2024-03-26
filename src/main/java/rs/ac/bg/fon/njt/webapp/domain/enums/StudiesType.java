@@ -4,11 +4,13 @@
  */
 package rs.ac.bg.fon.njt.webapp.domain.enums;
 
+import java.io.Serializable;
+
 /**
  *
  * @author aleks
  */
-public enum StudiesType {
+public enum StudiesType implements Serializable{
     UNDERGRADUATE,
     MASTER,
     PhD,

@@ -17,7 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import rs.ac.bg.fon.njt.webapp.domain.enums.CourseType;
 import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 
 /**
@@ -37,17 +36,14 @@ public class Subject {
     private Long id;
     private String name;
     private int ects;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "coursetype")
-    private CourseType courseType;
+    
     @Enumerated(EnumType.STRING)
     @Column(name = "studiestype")
     private StudiesType studiesType;
 
-    public Subject(String name, int ects, CourseType courseType, StudiesType studiesType) {
+    public Subject(String name, int ects, StudiesType studiesType) {
         this.name = name;
         this.ects = ects;
-        this.courseType = courseType;
         this.studiesType = studiesType;
     }
 

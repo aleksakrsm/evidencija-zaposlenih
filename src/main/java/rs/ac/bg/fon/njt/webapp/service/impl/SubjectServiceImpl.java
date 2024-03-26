@@ -8,12 +8,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import rs.ac.bg.fon.njt.webapp.converter.SubjectMapper;
 import rs.ac.bg.fon.njt.webapp.domain.Subject;
+import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 import rs.ac.bg.fon.njt.webapp.repository.SubjectRepository;
+import rs.ac.bg.fon.njt.webapp.repository.specifications.SubjectSpecification;
 import rs.ac.bg.fon.njt.webapp.service.SubjectService;
 
 /**
@@ -71,6 +75,32 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public List<SubjectDto> findAll() {
         return subjectRepository.findAll().stream().map(
+                dao -> subjectMapper.subjectToSubjectDto(dao)
+        ).collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<SubjectDto> findAll(Pageable pageable){
+        Page<Subject> page = subjectRepository.findAll(pageable);
+        
+        if(pageable.getPageNumber()>=page.getTotalPages()){
+            throw new InvalidDataException("ne postoji strana");
+        }
+        
+        return page.getContent().stream().map(
+                dao -> subjectMapper.subjectToSubjectDto(dao)
+        ).collect(Collectors.toList());
+    }
+    
+    @Override
+    public List<SubjectDto> filter(StudiesType studiesType) {
+        return subjectRepository.findAll(SubjectSpecification.filter(studiesType)).stream().map(
+                dao -> subjectMapper.subjectToSubjectDto(dao)
+        ).collect(Collectors.toList());
+    }
+    @Override
+    public List<SubjectDto> search(String searchName) {
+        return subjectRepository.findAll(SubjectSpecification.search(searchName)).stream().map(
                 dao -> subjectMapper.subjectToSubjectDto(dao)
         ).collect(Collectors.toList());
     }
