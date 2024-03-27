@@ -35,6 +35,9 @@ public class AcademicTitleController {
 
     @GetMapping("/getAll")
     public ResponseEntity getAll() {
+        System.out.println("--------controller--------");
+        System.out.println(academicTitleService.findAll());
+        System.out.println("----------------");
         return ResponseEntity.status(HttpStatus.OK).body(academicTitleService.findAll());
     }
 
