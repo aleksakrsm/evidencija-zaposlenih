@@ -40,12 +40,12 @@ public class DepartmentController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity getById(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(departmentService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.findById(id));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody DepartmentDto departmentDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.save(departmentDto));
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.save(departmentDto));
     }
 
     @GetMapping("/get/name/{name}")

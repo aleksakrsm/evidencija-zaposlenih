@@ -96,26 +96,26 @@ public class EmployeeController {
     
     @GetMapping("/search/{term}")
     public ResponseEntity getById(@PathVariable(name = "term") String term) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(employeeService.search(term));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.search(term));
     }
     @GetMapping("/getById/{id}")
     public ResponseEntity getById(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(employeeService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.findById(id));
     }
 
     @PostMapping("/getByDepartmentDto")
     public ResponseEntity getByDepartmentDto(@Valid @RequestBody DepartmentDto departmentDto) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(employeeService.findByDepartmentDto(departmentDto));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.findByDepartmentDto(departmentDto));
     }
 
     @GetMapping("/getByDepartmentId/{departmentId}")
     public ResponseEntity getByDepartmentId(@PathVariable(name = "departmentId") Long departmentId) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(employeeService.findByDepartmentId(departmentId));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.findByDepartmentId(departmentId));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody EmployeeDto employeeDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.save(employeeDto));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.save(employeeDto));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")

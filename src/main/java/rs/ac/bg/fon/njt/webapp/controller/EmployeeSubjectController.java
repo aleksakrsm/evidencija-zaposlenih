@@ -36,7 +36,7 @@ public class EmployeeSubjectController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody EmployeeSubjectDto employeeSubjectDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeSubjectService.save(employeeSubjectDto));
+        return ResponseEntity.status(HttpStatus.OK).body(employeeSubjectService.save(employeeSubjectDto));
     }
     
 //    @PostMapping("/saveAll")

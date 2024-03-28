@@ -36,12 +36,12 @@ public class EmployeeAcademicTitleController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody EmployeeAcademicTitleDto historyItemDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(historyItemService.save(historyItemDto));
+        return ResponseEntity.status(HttpStatus.OK).body(historyItemService.save(historyItemDto));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveAll")
     public ResponseEntity save(@Valid @RequestBody List<EmployeeAcademicTitleDto> historyItemsDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(historyItemService.saveAll(historyItemsDto));
+        return ResponseEntity.status(HttpStatus.OK).body(historyItemService.saveAll(historyItemsDto));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
@@ -51,7 +51,7 @@ public class EmployeeAcademicTitleController {
 
     @PutMapping("/getById")
     public ResponseEntity getById(@Valid @RequestBody HistoryItemIdDto id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(historyItemService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(historyItemService.findById(id));
     }
     
 

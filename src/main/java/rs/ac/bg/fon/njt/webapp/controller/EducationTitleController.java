@@ -40,12 +40,12 @@ public class EducationTitleController {
 
     @GetMapping("/get/{id}")
     public ResponseEntity getById(@PathVariable(name = "id") Long id) {
-        return ResponseEntity.status(HttpStatus.FOUND).body(educationTitleService.findById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(educationTitleService.findById(id));
     }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody EducationTitleDto educationTitleDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(educationTitleService.save(educationTitleDto));
+        return ResponseEntity.status(HttpStatus.OK).body(educationTitleService.save(educationTitleDto));
     }
 
     @GetMapping("/get/name/{name}")
