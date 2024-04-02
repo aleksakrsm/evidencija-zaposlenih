@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 
 /**
  *
@@ -43,11 +44,11 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        System.out.println("kljuc pre____________" + signingKey);
+//        System.out.println("kljuc pre____________" + signingKey);
         byte[] keyBytes = Decoders.BASE64.decode(signingKey);
-        System.out.println("___________Decoders.BASE64.decode(kljuc) ____________" + keyBytes);
+//        System.out.println("___________Decoders.BASE64.decode(kljuc) ____________" + keyBytes);
         Key key = Keys.hmacShaKeyFor(keyBytes);
-        System.out.println("kljuc posle hmacShaKeyFor____________" + key);
+//        System.out.println("kljuc posle hmacShaKeyFor____________" + key);
         return key;//vraca tajni kljuc
     }
 
@@ -62,7 +63,7 @@ public class JwtService {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 60 * 1000))
-//                .setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000))
+                //                .setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
     }
 
@@ -75,6 +76,53 @@ public class JwtService {
         return username.equals(userDetails.getUsername()) && !isTokenExpired(jwt);//pa kako moze prvi uslov da bude F
     }
 
+    public String generateSimpleExpirationToken(String randomString) {
+        Map<String, String> extraClaims = new HashMap<>();
+        extraClaims.put("randomString", randomString);
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+//                .setExpiration(new Date(System.currentTimeMillis() + 3 * 1000))
+                .setExpiration(new Date(System.currentTimeMillis() + 3 * 60 * 1000))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
+    }
+//    public String generateSimpleExpirationToken(String randomString,String email) {
+//        Map<String, String> extraClaims = new HashMap<>();
+//        extraClaims.put("randomString", randomString);
+//        extraClaims.put("email", email);
+//        return Jwts.builder()
+//                .setClaims(extraClaims)
+//                .setIssuedAt(new Date(System.currentTimeMillis()))
+////                .setExpiration(new Date(System.currentTimeMillis() + 3 * 1000))
+//                .setExpiration(new Date(System.currentTimeMillis() + 3 * 60 * 1000))
+//                .signWith(getSignInKey(), SignatureAlgorithm.HS256).compact();
+//    }
+//
+//    public String extractEmailAdress(String jwt){
+//        final Claims claims = extractAllClaims(jwt);
+//        if (claims.containsKey("email")) {
+//            System.out.println((String)claims.get("email"));
+//            return (String)claims.get("email");
+//        } else {
+//            throw new InvalidDataException("no email claim in jwt");
+//        }
+//    }
+    
+    public boolean isSimpleExpirationTokenValid(String jwt, String randomString) {
+        final Claims claims = extractAllClaims(jwt);
+//        System.out.println("exsp??????????????/");
+//        System.out.println(isTokenExpired(jwt));
+//        System.out.println("random string");
+//        System.out.println(claims.get("randomString"));
+//        System.out.println("RESULT");
+//        System.out.println(randomString.equals(claims.get("randomString")) && !isTokenExpired(jwt));
+        if (claims.containsKey("randomString")) {
+            return randomString.equals(claims.get("randomString")) && !isTokenExpired(jwt);
+        } else {
+            return false;
+        }
+    }
+    
     private boolean isTokenExpired(String jwt) {
         return extractExpiration(jwt).before(new Date());
     }

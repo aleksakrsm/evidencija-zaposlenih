@@ -4,6 +4,7 @@
  */
 package rs.ac.bg.fon.njt.webapp.exception;
 
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.ConstraintViolationException;
 import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
@@ -36,13 +37,18 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         ex.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<Object> handleDataAccessException(DataAccessException ex, WebRequest request) {
         // OptimisticLockingFailureException je ovde obradjen
         ex.printStackTrace();
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<Object> handleJwtException(JwtException ex, WebRequest request) {
+        ex.printStackTrace();
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(value = {AuthenticationException.class, AccessDeniedException.class})
     public ResponseEntity<Object> handleSecurityAuthException(Exception ex, WebRequest request) {
         // OptimisticLockingFailureException je ovde obradjen
