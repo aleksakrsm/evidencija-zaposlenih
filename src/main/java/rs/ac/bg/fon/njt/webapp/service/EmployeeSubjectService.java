@@ -16,6 +16,8 @@ public interface EmployeeSubjectService {
     EmployeeSubjectDto save(EmployeeSubjectDto dto);
 
 //    List<EmployeeSubjectDto> saveAll(List<EmployeeSubjectDto> list);
+    
+    List<EmployeeSubjectDto> saveChanges(List<EmployeeSubjectDto> toSave,List<EmployeeSubjectDto> toDelete);
 
     EmployeeSubjectDto edit(EmployeeSubjectDto dto);
 

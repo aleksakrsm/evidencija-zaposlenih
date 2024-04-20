@@ -16,8 +16,10 @@ import rs.ac.bg.fon.njt.webapp.dto.HistoryItemIdDto;
 public interface EmployeeAcademicTitleService {
     EmployeeAcademicTitleDto save(EmployeeAcademicTitleDto historyItemDto);
     List<EmployeeAcademicTitleDto> saveAll(List<EmployeeAcademicTitleDto> historyItemsDto);
+    List<EmployeeAcademicTitleDto> saveChanges(List<EmployeeAcademicTitleDto> historyItemsDto,List<EmployeeAcademicTitleDto> deleteItems);
     EmployeeAcademicTitleDto edit(EmployeeAcademicTitleDto historyItemDto);
     EmployeeAcademicTitleDto findById(HistoryItemIdDto idDto);
     List<EmployeeAcademicTitleDto> findByEmployee(EmployeeDto employeeDto);
+    List<EmployeeAcademicTitleDto> findByEmployee(Long empId);
     void delete(HistoryItemIdDto idDto);
 }

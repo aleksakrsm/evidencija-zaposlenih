@@ -147,7 +147,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public List<EmployeeDto> findAll(Pageable pageable){
         Page<Employee> pageEmp = employeeRepository.findAll(pageable);
-        if(pageEmp.getTotalPages()<pageable.getPageNumber()){
+        if(pageEmp.getTotalPages()<pageable.getPageNumber() && pageable.getPageNumber()!=0){
             System.out.println("NE POSTOJI STRANA");
             throw new InvalidDataException("ne postoji strana");
         }
@@ -157,7 +157,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public Page<EmployeeDto> pageFilterPaginate(EmployeeFilterDto filterDto,Pageable pageable){
         Page<Employee> pageEmp = employeeRepository.findAll(EmployeeSpecification.filterEmployees(filterDto),pageable);
-        if(pageEmp.getTotalPages()<=pageable.getPageNumber()){
+        if(pageEmp.getTotalPages()<=pageable.getPageNumber() && pageable.getPageNumber()!=0){
             System.out.println("NE POSTOJI STRANA");
             throw new InvalidDataException("ne postoji strana");
         }
@@ -174,7 +174,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         System.out.println(pageable.getPageNumber());
         System.out.print("-----------total -------");
         System.out.println(pageEmp.getTotalPages());
-        if(pageEmp.getTotalPages()<=pageable.getPageNumber()){
+        if(pageEmp.getTotalPages()<=pageable.getPageNumber() && pageable.getPageNumber()!=0){
             System.out.println("NE POSTOJI STRANA");
             throw new InvalidDataException("ne postoji strana");
         }

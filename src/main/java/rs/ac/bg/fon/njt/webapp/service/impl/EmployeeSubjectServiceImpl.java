@@ -9,6 +9,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import rs.ac.bg.fon.njt.webapp.converter.EmployeeSubjectIdMapper;
 import rs.ac.bg.fon.njt.webapp.converter.EmployeeSubjectMapper;
 import rs.ac.bg.fon.njt.webapp.domain.EmployeeSubject;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectDto;
@@ -23,20 +25,23 @@ import rs.ac.bg.fon.njt.webapp.service.EmployeeSubjectService;
  * @author aleks
  */
 @Service
-public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
+public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
 
     @Autowired
     private EmployeeSubjectRepository empSubRep;
-    
+
     @Autowired
     private EmployeeRepository employeeRepository;
-    
+
     @Autowired
     private SubjectRepository subjectRepository;
-    
+
     @Autowired
     private EmployeeSubjectMapper empSubMapper;
-    
+
+    @Autowired
+    private EmployeeSubjectIdMapper empSubIDMapper;
+
     @Override
     public EmployeeSubjectDto save(EmployeeSubjectDto dto) {
         if (dto == null) {
@@ -49,7 +54,7 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
             throw new InvalidDataException("id je  null");
         }
 
-        if (employeeSubject.getId().getEmployee() == null || employeeSubject.getId().getSubject()== null) {
+        if (employeeSubject.getId().getEmployee() == null || employeeSubject.getId().getSubject() == null) {
             throw new InvalidDataException("deo slozenog kljuca je  null");
         }
 
@@ -75,6 +80,17 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
 //    public List<EmployeeSubjectDto> saveAll(List<EmployeeSubjectDto> list) {
 //        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 //    }
+    @Override
+    @Transactional
+    public List<EmployeeSubjectDto> saveChanges(List<EmployeeSubjectDto> toSave, List<EmployeeSubjectDto> toDelete) {
+        for (EmployeeSubjectDto deleteItem : toDelete) {
+            empSubRep.deleteById(empSubIDMapper.employeeSubjectIdDtoToEmployeeSubjectId(deleteItem.getId()));
+        }
+        for (EmployeeSubjectDto itemDto : toSave) {
+            empSubRep.save(empSubMapper.employeeSubjectDtoToEmployeeSubject(itemDto));
+        }
+        return null;
+    }
 
     @Override
     public EmployeeSubjectDto edit(EmployeeSubjectDto dto) {
@@ -88,7 +104,7 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
             throw new InvalidDataException("id je  null");
         }
 
-        if (employeeSubject.getId().getEmployee() == null || employeeSubject.getId().getSubject()== null) {
+        if (employeeSubject.getId().getEmployee() == null || employeeSubject.getId().getSubject() == null) {
             throw new InvalidDataException("deo slozenog kljuca je  null");
         }
 
@@ -105,7 +121,7 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
             throw new InvalidDataException("zaposleni nema taj subject. subject prvo morabiti unet u bazu da bi bio izmenjen.");
         }
 
-        if(optional.get().getClassType().name().equals(dto.getClassType().name())){
+        if (optional.get().getClassType().name().equals(dto.getClassType().name())) {
             return dto; ///nista nije ni izmenjeno. ne treba zvati repozitorijum
         }
         return empSubMapper.employeeSubjectToEmployeeSubjectDto(empSubRep.save(employeeSubject));
@@ -113,29 +129,29 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
 
     @Override
     public List<EmployeeSubjectDto> findByEmployee(Long id) {
-        if(id==null){
+        if (id == null) {
             throw new InvalidDataException("id == null");
         }
         if (employeeRepository.findById(id).isEmpty()) {
             throw new InvalidDataException("ne postoji Employee sa prosledjenim id");
         }
-        List<EmployeeSubjectDto> employeeSubjectDtos = 
-                empSubRep.findByIdEmployeeId(id).stream().map(dao->empSubMapper.employeeSubjectToEmployeeSubjectDto(dao)).collect(Collectors.toList());
-        
+        List<EmployeeSubjectDto> employeeSubjectDtos
+                = empSubRep.findByIdEmployeeId(id).stream().map(dao -> empSubMapper.employeeSubjectToEmployeeSubjectDto(dao)).collect(Collectors.toList());
+
         return employeeSubjectDtos;
     }
 
     @Override
     public List<EmployeeSubjectDto> findBySubject(Long id) {
-        if(id==null){
+        if (id == null) {
             throw new InvalidDataException("id == null");
         }
         if (subjectRepository.findById(id).isEmpty()) {
             throw new InvalidDataException("ne postoji Subject sa prosledjenim id");
         }
-        List<EmployeeSubjectDto> employeeSubjectDtos = 
-                empSubRep.findByIdSubjectId(id).stream().map(dao->empSubMapper.employeeSubjectToEmployeeSubjectDto(dao)).collect(Collectors.toList());
-        
+        List<EmployeeSubjectDto> employeeSubjectDtos
+                = empSubRep.findByIdSubjectId(id).stream().map(dao -> empSubMapper.employeeSubjectToEmployeeSubjectDto(dao)).collect(Collectors.toList());
+        System.out.println(employeeSubjectDtos);
         return employeeSubjectDtos;
     }
 
@@ -151,7 +167,7 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
             throw new InvalidDataException("id je  null");
         }
 
-        if (employeeSubject.getId().getEmployee() == null || employeeSubject.getId().getSubject()== null) {
+        if (employeeSubject.getId().getEmployee() == null || employeeSubject.getId().getSubject() == null) {
             throw new InvalidDataException("deo slozenog kljuca je  null");
         }
 
@@ -163,5 +179,5 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService{
         }
         empSubRep.delete(employeeSubject);
     }
-    
+
 }

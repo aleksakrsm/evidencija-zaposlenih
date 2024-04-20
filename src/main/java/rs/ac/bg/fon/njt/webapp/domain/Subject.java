@@ -39,12 +39,12 @@ public class Subject {
     
     @Enumerated(EnumType.STRING)
     @Column(name = "studiestype")
-    private StudiesType studiesType;
+    private StudiesType studiestype;
 
     public Subject(String name, int ects, StudiesType studiesType) {
         this.name = name;
         this.ects = ects;
-        this.studiesType = studiesType;
+        this.studiestype = studiesType;
     }
 
     @Override

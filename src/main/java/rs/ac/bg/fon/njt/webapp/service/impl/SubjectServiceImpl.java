@@ -15,6 +15,7 @@ import rs.ac.bg.fon.njt.webapp.converter.SubjectMapper;
 import rs.ac.bg.fon.njt.webapp.domain.Subject;
 import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
+import rs.ac.bg.fon.njt.webapp.dto.SubjectFilterDto;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 import rs.ac.bg.fon.njt.webapp.repository.SubjectRepository;
 import rs.ac.bg.fon.njt.webapp.repository.specifications.SubjectSpecification;
@@ -63,7 +64,7 @@ public class SubjectServiceImpl implements SubjectService {
         }
         optional = null;
         optional = subjectRepository.findByName(subjectDto.getName());
-        if (optional.isPresent()) {
+        if (optional.isPresent()&&optional.get().getId()!=subjectDto.getId()) {
             throw new InvalidDataException("vec postoji sa tim nazivom");
         }
         Subject subject = subjectMapper.subjectDtoToSubject(subjectDto);
@@ -73,6 +74,19 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
+    public Page<SubjectDto> pageFilterPaginate(SubjectFilterDto filterDto,Pageable pageable){
+        Page<Subject> pageSub = subjectRepository.findAll(SubjectSpecification.filter(filterDto),pageable);
+        if(pageSub.getTotalPages()<=pageable.getPageNumber() && pageable.getPageNumber()!=0){
+            throw new InvalidDataException("ne postoji strana");
+        }
+        Page<SubjectDto> dtoPage = pageSub.map(this::convertToDto);
+        return dtoPage;
+    }
+    private SubjectDto convertToDto(Subject subject) {
+        return subjectMapper.subjectToSubjectDto(subject);
+    }
+    
+    @Override
     public List<SubjectDto> findAll() {
         return subjectRepository.findAll().stream().map(
                 dao -> subjectMapper.subjectToSubjectDto(dao)
@@ -80,24 +94,34 @@ public class SubjectServiceImpl implements SubjectService {
     }
     
     @Override
-    public List<SubjectDto> findAll(Pageable pageable){
+    public Page<SubjectDto> findAll(Pageable pageable){
         Page<Subject> page = subjectRepository.findAll(pageable);
         
-        if(pageable.getPageNumber()>=page.getTotalPages()){
+        if(pageable.getPageNumber()>=page.getTotalPages() && pageable.getPageNumber()!=0){
             throw new InvalidDataException("ne postoji strana");
         }
-        
-        return page.getContent().stream().map(
-                dao -> subjectMapper.subjectToSubjectDto(dao)
-        ).collect(Collectors.toList());
+        Page<SubjectDto> dtoPage = page.map(this::convertToDto);
+        return dtoPage;
     }
+//    @Override
+//    public List<SubjectDto> findAll(Pageable pageable){
+//        Page<Subject> page = subjectRepository.findAll(pageable);
+//        
+//        if(pageable.getPageNumber()>=page.getTotalPages()){
+//            throw new InvalidDataException("ne postoji strana");
+//        }
+//        
+//        return page.getContent().stream().map(
+//                dao -> subjectMapper.subjectToSubjectDto(dao)
+//        ).collect(Collectors.toList());
+//    }
     
-    @Override
-    public List<SubjectDto> filter(StudiesType studiesType) {
-        return subjectRepository.findAll(SubjectSpecification.filter(studiesType)).stream().map(
-                dao -> subjectMapper.subjectToSubjectDto(dao)
-        ).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<SubjectDto> filter(StudiesType studiesType) {
+//        return subjectRepository.findAll(SubjectSpecification.filter(studiesType)).stream().map(
+//                dao -> subjectMapper.subjectToSubjectDto(dao)
+//        ).collect(Collectors.toList());
+//    }
     @Override
     public List<SubjectDto> search(String searchName) {
         return subjectRepository.findAll(SubjectSpecification.search(searchName)).stream().map(

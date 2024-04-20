@@ -4,6 +4,8 @@
  */
 package rs.ac.bg.fon.njt.webapp.dto;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -39,6 +41,7 @@ public class SubjectDto {
     private int ects;
     
     @MyStudiesTypeValidator
+//    @Enumerated(EnumType.STRING)
     private StudiesType studiesType;
 
 }

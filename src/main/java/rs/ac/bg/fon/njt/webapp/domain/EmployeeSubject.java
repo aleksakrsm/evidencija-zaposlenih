@@ -4,6 +4,7 @@
  */
 package rs.ac.bg.fon.njt.webapp.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,6 +31,8 @@ public class EmployeeSubject {
 
     @EmbeddedId
     private EmployeeSubjectID id;
+    
+    @Column(name = "class_type")
     @Enumerated(EnumType.STRING)
     private ClassType classType;
 

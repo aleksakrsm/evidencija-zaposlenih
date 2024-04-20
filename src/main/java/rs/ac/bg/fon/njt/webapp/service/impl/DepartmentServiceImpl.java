@@ -45,7 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             throw new InvalidDataException("vec postoji katedra sa tim nazivom");
         }
         optional = null;
-        optional = departmentRepository.findByShortName(departmentDto.getShortName());
+        optional = departmentRepository.findByShortName(departmentDto.getShortName() );
         if (optional.isPresent()) {
             throw new InvalidDataException("vec postoji katedra sa tim skracenim nazivom");
         }
@@ -64,12 +64,12 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         optional = null;
         optional = departmentRepository.findByName(departmentDto.getName());
-        if (optional.isPresent()) {
+        if (optional.isPresent()&& optional.get().getId()!=departmentDto.getId()) {
             throw new InvalidDataException("vec postoji katedra sa tim nazivom");
         }
         optional = null;
         optional = departmentRepository.findByShortName(departmentDto.getShortName());
-        if (optional.isPresent()) {
+        if (optional.isPresent()&& optional.get().getId()!=departmentDto.getId()) {
             throw new InvalidDataException("vec postoji katedra sa tim skracenim nazivom");
         }
         Department department = departmentMapper.departmentDtoToDepartment(departmentDto);

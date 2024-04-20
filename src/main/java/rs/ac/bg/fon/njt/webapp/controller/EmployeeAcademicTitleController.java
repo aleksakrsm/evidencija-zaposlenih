@@ -12,11 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rs.ac.bg.fon.njt.webapp.controller.customRequestBodyAnotations.JsonArgHistoryItemsList;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeAcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeDto;
 import rs.ac.bg.fon.njt.webapp.dto.HistoryItemIdDto;
@@ -44,6 +47,11 @@ public class EmployeeAcademicTitleController {
         return ResponseEntity.status(HttpStatus.OK).body(historyItemService.saveAll(historyItemsDto));
     }
     @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/saveChanges")
+    public ResponseEntity saveChanges(@JsonArgHistoryItemsList(path = "/toSave") List<EmployeeAcademicTitleDto> toSave,@JsonArgHistoryItemsList(path = "/toDelete") List<EmployeeAcademicTitleDto> toDelete) {
+        return ResponseEntity.status(HttpStatus.OK).body(historyItemService.saveChanges(toSave,toDelete));
+    }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity update(@Valid @RequestBody EmployeeAcademicTitleDto dto) {
             return ResponseEntity.status(HttpStatus.OK).body(historyItemService.edit(dto));
@@ -55,9 +63,9 @@ public class EmployeeAcademicTitleController {
     }
     
 
-    @PostMapping("/get/employee/{id}")
-    public ResponseEntity getByEmployee(@Valid @RequestBody EmployeeDto employeeDto) {
-        return new ResponseEntity(historyItemService.findByEmployee(employeeDto), HttpStatus.OK);
+    @GetMapping("/get/employee/{id}")
+    public ResponseEntity getByEmployee(@Valid @PathVariable Long id) {
+        return new ResponseEntity(historyItemService.findByEmployee(id), HttpStatus.OK);
     }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete")

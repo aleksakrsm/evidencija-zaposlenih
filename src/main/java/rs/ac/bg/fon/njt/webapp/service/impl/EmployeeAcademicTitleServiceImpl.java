@@ -42,7 +42,7 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
 
     @Autowired
     private EmployeeAcademicTitleMapper historyItemMapper;
-    
+
     @Autowired
     private HistoryItemIdMapper historyItemIdMapper;
 
@@ -148,39 +148,80 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
 
     @Override
     public EmployeeAcademicTitleDto findById(HistoryItemIdDto idDto) {
-        if(idDto == null)
+        if (idDto == null) {
             throw new InvalidDataException("idDto je null");
+        }
         Optional<EmployeeAcademicTitle> historyItemOptional = historyItemRepository.findById(historyItemIdMapper.historyItemIdDtoToHistoryItemId(idDto));
-        if(historyItemOptional.isEmpty())
+        if (historyItemOptional.isEmpty()) {
             throw new InvalidDataException("ne postoji sa tim id");
+        }
         return historyItemMapper.historyItemToHistoryItemDto(historyItemOptional.get());
     }
 
     @Override
     public List<EmployeeAcademicTitleDto> findByEmployee(EmployeeDto employeeDto) {
-        if(employeeDto == null)
+        if (employeeDto == null) {
             throw new InvalidDataException("prosledjeni argument je null");
-        if(employeeDto.getId() == null)
+        }
+        if (employeeDto.getId() == null) {
             throw new InvalidDataException("id zaposlenog je null");
-        
+        }
+
         Optional<Employee> optionalEmployee = employeeRepository.findById(employeeDto.getId());
-        if(optionalEmployee.isEmpty())
+        if (optionalEmployee.isEmpty()) {
             throw new InvalidDataException("zaposleni sa tim id ne postoji");
-        
+        }
+
         return historyItemRepository.findByEmployeeIdOrderByBeginDateAsc(employeeDto.getId()).stream().
                 map(dao -> historyItemMapper.historyItemToHistoryItemDto(dao)).
                 collect(Collectors.toList());
-        
+    }
+
+    @Override
+    public List<EmployeeAcademicTitleDto> findByEmployee(Long empId) {
+        if (empId == null) {
+            throw new InvalidDataException("id zaposlenog je null");
+        }
+
+        Optional<Employee> optionalEmployee = employeeRepository.findById(empId);
+        if (optionalEmployee.isEmpty()) {
+            throw new InvalidDataException("zaposleni sa tim id ne postoji");
+        }
+
+        return historyItemRepository.findByEmployeeIdOrderByBeginDateAsc(empId).stream().
+                map(dao -> historyItemMapper.historyItemToHistoryItemDto(dao)).
+                collect(Collectors.toList());
+//        return historyItemRepository.findByEmployeeIdOrderByBeginDateAsc(empId).stream().
+//                map(dao -> {
+//                    System.out.println(dao);
+//                    System.out.println(historyItemMapper.historyItemToHistoryItemDto(dao).getHistoryItemIdDto());
+//                    return historyItemMapper.historyItemToHistoryItemDto(dao);
+//                }).
+//                collect(Collectors.toList());
     }
 
     @Override
     public void delete(HistoryItemIdDto idDto) {
-        if(idDto == null)
+        if (idDto == null) {
             throw new InvalidDataException("idDto je null");
+        }
         Optional<EmployeeAcademicTitle> historyItemOptional = historyItemRepository.findById(historyItemIdMapper.historyItemIdDtoToHistoryItemId(idDto));
-        if(historyItemOptional.isEmpty())
+        if (historyItemOptional.isEmpty()) {
             throw new InvalidDataException("ne postoji sa tim id");
+        }
         historyItemRepository.delete(historyItemOptional.get());
+    }
+
+    @Override
+    @Transactional
+    public List<EmployeeAcademicTitleDto> saveChanges(List<EmployeeAcademicTitleDto> historyItemsDto, List<EmployeeAcademicTitleDto> deleteItems) {
+        for (EmployeeAcademicTitleDto deleteItem : deleteItems) {
+            historyItemRepository.deleteById(historyItemIdMapper.historyItemIdDtoToHistoryItemId(deleteItem.getHistoryItemIdDto()));
+        }
+        for (EmployeeAcademicTitleDto itemDto : historyItemsDto) {
+            historyItemRepository.save(historyItemMapper.historyItemDtoToHistoryItem(itemDto));
+        }
+        return null;
     }
 
 }

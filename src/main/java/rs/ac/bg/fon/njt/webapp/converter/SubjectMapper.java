@@ -5,6 +5,7 @@
 package rs.ac.bg.fon.njt.webapp.converter;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import rs.ac.bg.fon.njt.webapp.domain.Subject;
 import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
 
@@ -14,9 +15,11 @@ import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
  */
 @Mapper(componentModel = "spring")
 public interface SubjectMapper {
-    
+
+    @Mapping(target = "studiesType", source = "studiestype")
     SubjectDto subjectToSubjectDto(Subject subject);
 
+    @Mapping(target = "studiestype", source = "studiesType")
     Subject subjectDtoToSubject(SubjectDto dto);
 
 }

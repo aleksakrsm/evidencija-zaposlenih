@@ -5,6 +5,7 @@
 package rs.ac.bg.fon.njt.webapp.converter;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import rs.ac.bg.fon.njt.webapp.domain.EmployeeAcademicTitle;
 import rs.ac.bg.fon.njt.webapp.dto.EmployeeAcademicTitleDto;
 
@@ -14,9 +15,10 @@ import rs.ac.bg.fon.njt.webapp.dto.EmployeeAcademicTitleDto;
  */
 @Mapper(componentModel = "spring")
 public interface EmployeeAcademicTitleMapper {
-
+    @Mapping(source = "historyItemIdDto",target = "historyItemID")
     EmployeeAcademicTitle historyItemDtoToHistoryItem(EmployeeAcademicTitleDto historyItemDto);
 
+    @Mapping(target = "historyItemIdDto",source = "historyItemID")
     EmployeeAcademicTitleDto historyItemToHistoryItemDto(EmployeeAcademicTitle historyItem);
     
 }

@@ -4,6 +4,7 @@
  */
 package rs.ac.bg.fon.njt.webapp.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -29,8 +30,9 @@ public class EmployeeAcademicTitle {
 
     @EmbeddedId
     private HistoryItemID historyItemID;
-    
+    @Column(name = "begin_date")
     private LocalDate beginDate;
+    @Column(name = "end_date")
     private LocalDate endDate;
 
     @Override

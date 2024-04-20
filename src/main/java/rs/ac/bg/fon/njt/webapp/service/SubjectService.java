@@ -5,9 +5,11 @@
 package rs.ac.bg.fon.njt.webapp.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 import rs.ac.bg.fon.njt.webapp.dto.SubjectDto;
+import rs.ac.bg.fon.njt.webapp.dto.SubjectFilterDto;
 
 /**
  *
@@ -18,9 +20,12 @@ public interface SubjectService {
     SubjectDto save(SubjectDto subjectDto);
     SubjectDto edit(SubjectDto subjectDto);
     List<SubjectDto> findAll();
-    List<SubjectDto> findAll(Pageable pageable);
+    Page<SubjectDto> pageFilterPaginate(SubjectFilterDto filterDto,Pageable pageable);
+//    Page<SubjectDto> pageFilterPaginate(StudiesType studiesType,Pageable pageable);
+    Page<SubjectDto> findAll(Pageable pageable);
+//    List<SubjectDto> findAll(Pageable pageable);
     List<SubjectDto> search(String searchName);
-    List<SubjectDto> filter(StudiesType studiesType);
+//    List<SubjectDto> filter(StudiesType studiesType);
     SubjectDto findById(Long id);
     SubjectDto findByName(String name);
     void delete(Long id);

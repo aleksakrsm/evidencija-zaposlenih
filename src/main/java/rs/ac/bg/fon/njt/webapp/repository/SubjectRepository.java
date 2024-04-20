@@ -6,6 +6,8 @@ package rs.ac.bg.fon.njt.webapp.repository;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -20,4 +22,5 @@ import rs.ac.bg.fon.njt.webapp.domain.Subject;
 public interface SubjectRepository extends JpaRepository<Subject, Long>,JpaSpecificationExecutor<Subject>{
     Optional<Subject> findByName(String name);
     List<Subject> findAll(Specification<Subject> specification);
+    Page<Subject> findByStudiestype(String studiesType,Pageable pageable);
 }
