@@ -60,6 +60,10 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
 
         if (historyItem.getHistoryItemID().getAcademicTitle() == null || historyItem.getHistoryItemID().getEmployee() == null) {
             throw new InvalidDataException("deo id je  null");
+        } 
+        
+        if (historyItemDto.getHistoryItemIdDto().getBeginDate()==null) {
+            throw new InvalidDataException("beginDate je obavezno polje");
         }
 
         if (academicTitleRepository.findById(historyItem.getHistoryItemID().getAcademicTitle().getId()).isEmpty()) {
@@ -69,7 +73,7 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
         if (employeeRepository.findById(historyItem.getHistoryItemID().getEmployee().getId()).isEmpty()) {
             throw new InvalidDataException("ne postoji zaposleni sa prosledjenim id");
         }
-
+        
         Optional<EmployeeAcademicTitle> optionalHistoryItem = historyItemRepository.findById(historyItem.getHistoryItemID());
         // proveriti da li postoje titula i employee i sta bi se desilo ako ne postoje, a to nije provereno prethodno
 
@@ -94,7 +98,7 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
             if (historyItem.getHistoryItemID() == null) {
                 throw new InvalidDataException("id je  null");
             }
-            if (historyItem.getHistoryItemID().getAcademicTitle() == null || historyItem.getHistoryItemID().getEmployee() == null) {
+            if (historyItem.getHistoryItemID().getAcademicTitle() == null || historyItem.getHistoryItemID().getEmployee() == null || historyItem.getHistoryItemID().getBeginDate()==null) {
                 throw new InvalidDataException("deo id je  null");
             }
 
@@ -214,8 +218,11 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
 
     @Override
     @Transactional
-    public List<EmployeeAcademicTitleDto> saveChanges(List<EmployeeAcademicTitleDto> historyItemsDto, List<EmployeeAcademicTitleDto> deleteItems) {
-        for (EmployeeAcademicTitleDto deleteItem : deleteItems) {
+    public List<EmployeeAcademicTitleDto> saveChanges(List<EmployeeAcademicTitleDto> historyItemsDto, List<EmployeeAcademicTitleDto> deleteItemsDto) {
+//        if(!areIntervalsValid(historyItemsDto,deleteItemsDto)){
+//            throw new InvalidDataException("academic titles history is not valid!");
+//        }
+        for (EmployeeAcademicTitleDto deleteItem : deleteItemsDto) {
             historyItemRepository.deleteById(historyItemIdMapper.historyItemIdDtoToHistoryItemId(deleteItem.getHistoryItemIdDto()));
         }
         for (EmployeeAcademicTitleDto itemDto : historyItemsDto) {
@@ -223,5 +230,9 @@ public class EmployeeAcademicTitleServiceImpl implements EmployeeAcademicTitleSe
         }
         return null;
     }
+
+//    private boolean areIntervalsValid(List<EmployeeAcademicTitleDto> historyItemsDto, List<EmployeeAcademicTitleDto> deleteItemsDto) {
+//        List<EmployeeAcademicTitle> finalList = historyItemRepository.findAll().stream()..collect(Collectors.toList());
+//    }
 
 }

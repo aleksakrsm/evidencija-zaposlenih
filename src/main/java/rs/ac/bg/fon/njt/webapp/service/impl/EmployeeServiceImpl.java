@@ -141,7 +141,11 @@ public class EmployeeServiceImpl implements EmployeeService{
         
         
         Employee employee = employeeMapper.employeeDtoToEmployee(employeeDto);
-        return employeeMapper.employeeToEmployeeDto(employeeRepository.save(employee));
+        employeeDto = employeeMapper.employeeToEmployeeDto(employeeRepository.save(employee));
+        System.out.println(employeeDto.getStatus()+"........................");
+        return employeeDto;
+//        Employee employee = employeeMapper.employeeDtoToEmployee(employeeDto);
+//        return employeeMapper.employeeToEmployeeDto(employeeRepository.save(employee));
     }
 
     @Override
@@ -251,6 +255,17 @@ public class EmployeeServiceImpl implements EmployeeService{
         }
     }
 
+    @Override
+    public Long countByAcademicTitleAndDepartment(Long academicTitleId,Long departmentId){
+        if(departmentId== null){
+            departmentId = -1l;
+        }
+        if(academicTitleId== null){
+            academicTitleId = -1l;
+        }
+        return employeeRepository.count(EmployeeSpecification.countEmployees(academicTitleId, departmentId));
+    }
+    
     
     
     

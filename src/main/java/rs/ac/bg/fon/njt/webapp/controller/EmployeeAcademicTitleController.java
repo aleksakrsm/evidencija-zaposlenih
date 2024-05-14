@@ -48,7 +48,7 @@ public class EmployeeAcademicTitleController {
     }
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveChanges")
-    public ResponseEntity saveChanges(@JsonArgHistoryItemsList(path = "/toSave") List<EmployeeAcademicTitleDto> toSave,@JsonArgHistoryItemsList(path = "/toDelete") List<EmployeeAcademicTitleDto> toDelete) {
+    public ResponseEntity saveChanges(@Valid @JsonArgHistoryItemsList(path = "/toSave") List<EmployeeAcademicTitleDto> toSave,@Valid @JsonArgHistoryItemsList(path = "/toDelete") List<EmployeeAcademicTitleDto> toDelete) {
         return ResponseEntity.status(HttpStatus.OK).body(historyItemService.saveChanges(toSave,toDelete));
     }
     @PreAuthorize("hasRole('ADMIN')")

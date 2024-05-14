@@ -125,7 +125,7 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body("izbrisan je zaposleni sa id: " + id);
     }
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/delete/logically/{id}")
+    @GetMapping("/deleteLogically/{id}")
     public ResponseEntity deleteLogically(@PathVariable Long id) {
         EmployeeDto employeeDto = employeeService.findById(id);
         employeeDto.setStatus(Status.INACTIVE);
@@ -135,6 +135,13 @@ public class EmployeeController {
     @PutMapping("/update")
     public ResponseEntity update(@Valid @RequestBody EmployeeDto dto) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeService.edit(dto));
+    }
+    
+    @GetMapping("/count")
+    public ResponseEntity countByAcademicTitleAndDepartment(
+            @RequestParam(name = "academicTitleId",defaultValue = "-1")long academicTitleId,
+            @RequestParam(name = "departmentId",defaultValue = "-1")long departmentId){
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.countByAcademicTitleAndDepartment(academicTitleId, departmentId));
     }
 
 }

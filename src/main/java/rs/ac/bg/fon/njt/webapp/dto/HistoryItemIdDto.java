@@ -5,6 +5,7 @@
 package rs.ac.bg.fon.njt.webapp.dto;
 
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,4 +26,6 @@ public class HistoryItemIdDto {
     @NotNull(message = "akademska titula je obavezno polje")
     private AcademicTitleDto academicTitle;
      
+    @NotNull(message = "beginDate je obavezno polje")
+    private LocalDate beginDate;
 }

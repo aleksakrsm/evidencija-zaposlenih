@@ -30,8 +30,8 @@ public class EmployeeAcademicTitle {
 
     @EmbeddedId
     private HistoryItemID historyItemID;
-    @Column(name = "begin_date")
-    private LocalDate beginDate;
+//    @Column(name = "begin_date")
+//    private LocalDate beginDate;
     @Column(name = "end_date")
     private LocalDate endDate;
 
@@ -59,7 +59,7 @@ public class EmployeeAcademicTitle {
     
     @Override
     public String toString() {
-        return historyItemID.getEmployee().getFirstname() + " is " + historyItemID.getAcademicTitle() + " Start date:" + beginDate + " - " + endDate+ "\n";
+        return historyItemID.getEmployee().getFirstname() + " is " + historyItemID.getAcademicTitle() + " Start date:" + historyItemID.getBeginDate() + " - " + endDate+ "\n";
     }
 
 }

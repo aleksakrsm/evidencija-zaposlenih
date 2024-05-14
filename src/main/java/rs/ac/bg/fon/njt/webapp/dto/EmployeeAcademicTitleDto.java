@@ -26,7 +26,7 @@ public class EmployeeAcademicTitleDto {
     
 //    @NotNull(message = "beginDate je obavezno polje")
 //    @Past(message = "beginDate mora da bude u proslosti")
-    private LocalDate beginDate;
+//    private LocalDate beginDate;
     
 //    @NotNull(message = "endDate je obavezno polje")
 //    @Past(message = "endDate mora da bude u proslosti")

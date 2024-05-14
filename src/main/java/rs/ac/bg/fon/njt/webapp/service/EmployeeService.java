@@ -31,5 +31,6 @@ public interface EmployeeService {
     List<EmployeeDto> findByDepartmentId(Long departmentId);
     List<EmployeeDto> findByStatus(Status status);
     void delete(Long id);
+    Long countByAcademicTitleAndDepartment(Long academicTitleId,Long departmentId);
     
 }

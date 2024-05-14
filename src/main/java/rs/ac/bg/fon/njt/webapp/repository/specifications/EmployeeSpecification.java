@@ -45,6 +45,17 @@ public class EmployeeSpecification {
             return criteriaBuilder.or(firstnamePredicate, lastnamePredicate,fullNamePredicate);
         });
     }
+    public static Specification<Employee> countEmployees(Long academicTitleId,Long departmentId) {
+        return ((root, query, criteriaBuilder) -> {
+            Predicate academicTitlePredicate
+                    = criteriaBuilder.like(root.get("academicTitle"),
+                            (academicTitleId == -1l) ? likePattern("") : academicTitleId.intValue() + "");
+            Predicate departmentPredicate
+                    = criteriaBuilder.like(root.get("department"),
+                            (departmentId == -1l) ? likePattern("") : departmentId.intValue() + "");
+            return criteriaBuilder.and(academicTitlePredicate, departmentPredicate);
+        });
+    }
 
     private static String likePattern(String term) {
         return "%" + term + "%";
