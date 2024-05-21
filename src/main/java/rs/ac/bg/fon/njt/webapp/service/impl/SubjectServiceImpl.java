@@ -96,7 +96,6 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public Page<SubjectDto> findAll(Pageable pageable){
         Page<Subject> page = subjectRepository.findAll(pageable);
-        
         if(pageable.getPageNumber()>=page.getTotalPages() && pageable.getPageNumber()!=0){
             throw new InvalidDataException("ne postoji strana");
         }

@@ -72,16 +72,16 @@ public class AuthenticationService {
         this.email = dto.getEmail();
         String link = dto.getLink() + "?token=" + token + "&email=" + dto.getEmail();
 //        String link = dto.getLink() + "?token=" + token;
-        System.out.println("-------------==================---------------================-------------");
-        System.out.println(link);
+//        System.out.println("-------------==================---------------================-------------");
+//        System.out.println(link);
         String mailTxt = "Postovani, " + "\n"
-                + "klikom na sledeci link dobijate stranicu za geristraciju. link je validan 3 minuta.\n"
+                + "klikom na sledeci link dobijate stranicu za registraciju. Link je validan 3 minuta.\n"
                 + link
                 + "\nAko niste zeleli da napravite nalog na stranici za evidenciju zaposlenih, ignorisite ovaj mejl.\nHvala";
         mailMessage.setText(mailTxt);
         mailMessage.setFrom("MS_0qqejK@trial-zr6ke4nerqm4on12.mlsender.net");
         mailMessage.setSubject("Registracija");
-        System.out.println(mailTxt);
+//        System.out.println(mailTxt);
         
         mailSender = new JavaMailSenderImpl();
         JavaMailSenderImpl implSender = (JavaMailSenderImpl) mailSender;
@@ -121,7 +121,6 @@ public class AuthenticationService {
         user = userRepository.save(user);
         String jwt = jwtService.generateToken(user);
         return new AuthenticationResponse(jwt);
-
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {

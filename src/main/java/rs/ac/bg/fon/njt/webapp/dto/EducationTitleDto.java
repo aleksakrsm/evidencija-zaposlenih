@@ -25,8 +25,8 @@ public class EducationTitleDto {
     private Long id;
     @NotBlank(message = "Name is mandatory")
     @Size(min = 3, max = 30, message = "Name must contain between 3 and 30 characters")
-    @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Z]?[a-z]{1,29}(?:[ ]|$)){1,}$",
-            message = "Name must contain only letters. Only the first letter of each word may be uppercase")
+    @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Za-z]{1,29}(?:[ ]|$)){1,}$",
+            message = "Name must contain only letters.")
     private String name;
 
     public EducationTitleDto(String name) {

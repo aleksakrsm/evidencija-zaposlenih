@@ -23,4 +23,5 @@ public interface SubjectRepository extends JpaRepository<Subject, Long>,JpaSpeci
     Optional<Subject> findByName(String name);
     List<Subject> findAll(Specification<Subject> specification);
     Page<Subject> findByStudiestype(String studiesType,Pageable pageable);
+//    Page<Subject> findByStudiestype(String studiesType);
 }

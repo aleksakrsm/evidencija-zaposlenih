@@ -69,14 +69,6 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
 
     @Override
     public List<AcademicTitleDto> findAll() {
-        System.out.println("--------service----DAO----");
-        System.out.println(academicTitleRepository.findAll());
-        System.out.println("----------------");
-        System.out.println("--------service----DTO----");
-        System.out.println(academicTitleRepository.findAll().stream().map(
-                dao -> academicTitleMapper.academicTitleToAcademicTitleDto(dao)
-        ).collect(Collectors.toList()));
-        System.out.println("----------------");
         return academicTitleRepository.findAll().stream().map(
                 dao -> academicTitleMapper.academicTitleToAcademicTitleDto(dao)
         ).collect(Collectors.toList());
