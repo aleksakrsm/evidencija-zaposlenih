@@ -9,19 +9,30 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 /**
+ * Validates if a given LocalDate represents a valid birthday. A valid birthday
+ * should be on or before the current date and not more than 100 years ago.
  *
  * @author aleks
  */
-class MyBirthdayCheckValidator implements ConstraintValidator<MyBirthdayValidator, LocalDate>{
+class MyBirthdayCheckValidator implements ConstraintValidator<MyBirthdayValidator, LocalDate> {
 
+    /**
+     * Checks if the given LocalDate is a valid birthday.
+     *
+     * @param date The LocalDate to be validated.
+     * @param context The validation context.
+     * @return {@code true} if the LocalDate is a valid birthday, {@code false}
+     * otherwise.
+     */
     @Override
     public boolean isValid(LocalDate t, ConstraintValidatorContext cvc) {
-        if(t==null)
+        if (t == null) {
             return true;
+        }
         LocalDate currentDate = LocalDate.now();
         LocalDate hundredYearsAgo = currentDate.minusYears(100);
 
         return !t.isAfter(currentDate) && !t.isBefore(hundredYearsAgo);
     }
-    
+
 }

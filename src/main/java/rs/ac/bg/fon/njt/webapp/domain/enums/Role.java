@@ -8,9 +8,18 @@ import java.io.Serializable;
 
 /**
  *
+ * Enumeration representing the roles of users in the application.
+ * This enum can be used to specify the role of a User.
+ * 
  * @author aleks
  */
 public enum Role implements Serializable{
+    /**
+     * Represents a user role with standard permissions.
+     */
     USER,
+    /**
+     * Represents an admin role with create, update and delete permissions.
+     */
     ADMIN
 }

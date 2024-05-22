@@ -25,6 +25,10 @@ import rs.ac.bg.fon.njt.webapp.dto.EmployeeSubjectDto;
 import rs.ac.bg.fon.njt.webapp.service.EmployeeSubjectService;
 
 /**
+ * Controller for handling operations related to Employee-Subject associations.
+ * Allows CRUD operations for employee-subject relationships. Requires ADMIN
+ * role authorization for certain operations. Cross-origin requests are
+ * permitted from all origins.
  *
  * @author aleks
  */
@@ -36,32 +40,65 @@ public class EmployeeSubjectController {
     @Autowired
     private EmployeeSubjectService employeeSubjectService;
 
+    /**
+     * Endpoint to save an employee-subject association.
+     *
+     * @param employeeSubjectDto The EmployeeSubjectDto object containing data
+     * for the association.
+     * @return ResponseEntity containing the saved employee-subject association
+     * and HTTP status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody EmployeeSubjectDto employeeSubjectDto) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeSubjectService.save(employeeSubjectDto));
     }
 
-//    @PostMapping("/saveAll")
-//    public ResponseEntity save(@Valid @RequestBody List<EmployeeSubjectDto> employeeSubjectsDto) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(employeeSubjectService.saveAll(employeeSubjectsDto));
-//    }
+    /**
+     * Endpoint to update an existing employee-subject association.
+     *
+     * @param dto The EmployeeSubjectDto object containing updated data for the
+     * association.
+     * @return ResponseEntity containing the updated employee-subject
+     * association and HTTP status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity update(@Valid @RequestBody EmployeeSubjectDto dto) {
         return ResponseEntity.status(HttpStatus.OK).body(employeeSubjectService.edit(dto));
     }
 
+    /**
+     * Endpoint to get employee-subject associations by employee ID.
+     *
+     * @param id The ID of the employee.
+     * @return ResponseEntity containing the list of employee-subject
+     * associations for the specified employee and HTTP status OK.
+     */
     @GetMapping("/get/employee/{id}")
     public ResponseEntity getByEmployee(@PathVariable Long id) {
         return new ResponseEntity(employeeSubjectService.findByEmployee(id), HttpStatus.OK);
     }
 
+    /**
+     * Endpoint to get employee-subject associations by subject ID.
+     *
+     * @param id The ID of the subject.
+     * @return ResponseEntity containing the list of employee-subject
+     * associations for the specified subject and HTTP status OK.
+     */
     @GetMapping("/get/subject/{id}")
     public ResponseEntity getBySubject(@PathVariable Long id) {
         return new ResponseEntity(employeeSubjectService.findBySubject(id), HttpStatus.OK);
     }
 
+    /**
+     * Endpoint to delete an employee-subject association.
+     *
+     * @param dto The EmployeeSubjectDto object containing data for the
+     * association to delete.
+     * @return ResponseEntity containing a success message and HTTP status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete")
     public ResponseEntity delete(@Valid @RequestBody EmployeeSubjectDto dto) {
@@ -70,6 +107,15 @@ public class EmployeeSubjectController {
                 body("izbrisan je EmployeeSubject predmet: " + dto.getId().getSubject().getName() + " zaposlenog: " + dto.getId().getEmployee().getFirstname());
     }
 
+    /**
+     * Endpoint to save changes to employee-subject associations, including both
+     * saving and deleting associations.
+     *
+     * @param toSave List of EmployeeSubjectDto objects to save.
+     * @param toDelete List of EmployeeSubjectDto objects to delete.
+     * @return ResponseEntity containing the result of the operation and HTTP
+     * status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/saveChanges")
     public ResponseEntity saveChanges(@JsonArgEmployeeSubjectList(path = "/toSave") List<EmployeeSubjectDto> toSave, @JsonArgEmployeeSubjectList(path = "/toDelete") List<EmployeeSubjectDto> toDelete) {

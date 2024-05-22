@@ -22,6 +22,10 @@ import rs.ac.bg.fon.njt.webapp.dto.DepartmentDto;
 import rs.ac.bg.fon.njt.webapp.service.DepartmentService;
 
 /**
+ * Controller for handling operations related to departments. This controller
+ * provides endpoints for retrieving, creating, updating, and deleting
+ * departments. Cross-Origin Resource Sharing (CORS) is enabled for all
+ * endpoints.
  *
  * @author aleks
  */
@@ -29,39 +33,84 @@ import rs.ac.bg.fon.njt.webapp.service.DepartmentService;
 @RequestMapping("/department")
 @CrossOrigin("*")
 public class DepartmentController {
-    
+
     @Autowired
     private DepartmentService departmentService;
-    
+
+    /**
+     * Endpoint to retrieve all departments.
+     *
+     * @return ResponseEntity containing a list of all departments and HTTP
+     * status OK.
+     */
     @GetMapping("/getAll")
     public ResponseEntity getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(departmentService.findAll());
     }
 
+    /**
+     * Endpoint to retrieve a department by its ID.
+     *
+     * @param id The ID of the department to retrieve.
+     * @return ResponseEntity containing the department with the specified ID
+     * and HTTP status OK.
+     */
     @GetMapping("/get/{id}")
     public ResponseEntity getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(departmentService.findById(id));
     }
+
+    /**
+     * Endpoint to save a new department.
+     *
+     * @param departmentDto The DepartmentDto object containing the data of the
+     * department to be saved.
+     * @return ResponseEntity containing the saved department and HTTP status
+     * OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody DepartmentDto departmentDto) {
         return ResponseEntity.status(HttpStatus.OK).body(departmentService.save(departmentDto));
     }
 
+    /**
+     * Endpoint to retrieve a department by its name.
+     *
+     * @param name The name of the department to retrieve.
+     * @return ResponseEntity containing the department with the specified name
+     * and HTTP status OK.
+     */
     @GetMapping("/get/name/{name}")
     public ResponseEntity getByName(@PathVariable String name) {
         return new ResponseEntity(departmentService.findByName(name), HttpStatus.OK);
     }
+
+    /**
+     * Endpoint to delete a department by its ID.
+     *
+     * @param id The ID of the department to delete.
+     * @return ResponseEntity containing a success message and HTTP status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
-            departmentService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body("izbrisana je katedra sa id: " + id);
+        departmentService.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("izbrisana je katedra sa id: " + id);
     }
+
+    /**
+     * Endpoint to update an existing department.
+     *
+     * @param dto The DepartmentDto object containing the updated data for the
+     * department.
+     * @return ResponseEntity containing the updated department and HTTP status
+     * OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity update(@Valid @RequestBody DepartmentDto dto) {
-            return ResponseEntity.status(HttpStatus.OK).body(departmentService.edit(dto));
+        return ResponseEntity.status(HttpStatus.OK).body(departmentService.edit(dto));
     }
-    
+
 }

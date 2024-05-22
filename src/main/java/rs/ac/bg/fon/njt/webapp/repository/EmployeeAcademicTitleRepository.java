@@ -14,11 +14,22 @@ import rs.ac.bg.fon.njt.webapp.domain.HistoryItemID;
 
 /**
  *
+ * Repository interface for accessing and managing EmployeeAcademicTitle
+ * entities in the database.
+ *
  * @author aleks
  */
 @Repository
-public interface EmployeeAcademicTitleRepository extends JpaRepository<EmployeeAcademicTitle, HistoryItemID>{
+public interface EmployeeAcademicTitleRepository extends JpaRepository<EmployeeAcademicTitle, HistoryItemID> {
+
+    /**
+     * Retrieves a list of EmployeeAcademicTitle entities for a specific
+     * employee ID, ordered by begin date in ascending order.
+     *
+     * @param employeeId The ID of the employee.
+     * @return A list of EmployeeAcademicTitle entities associated with the
+     * specified employee ID, ordered by begin date in ascending order.
+     */
     @Query(value = "SELECT * FROM employeeacademictitle WHERE employee = :employeeId ORDER BY begin_date ASC ", nativeQuery = true)
     List<EmployeeAcademicTitle> findByEmployeeIdOrderByBeginDateAsc(@Param("employeeId") Long employeeId);
-//    List<EmployeeAcademicTitle> findByEmployeeOrderByBeginDateAsc(Long employeeId);
 }

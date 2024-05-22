@@ -19,6 +19,10 @@ import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 import rs.ac.bg.fon.njt.webapp.validator.MyStudiesTypeValidator;
 
 /**
+ * Data Transfer Object (DTO) representing a subject. This class encapsulates
+ * information about a subject, including its ID, name, ECTS credits, and
+ * studies type.
+ *
  *
  * @author aleks
  */
@@ -28,20 +32,32 @@ import rs.ac.bg.fon.njt.webapp.validator.MyStudiesTypeValidator;
 @AllArgsConstructor
 public class SubjectDto {
 
+    /**
+     * The unique identifier of the subject.
+     */
     private Long id;
+    /**
+     * The name of the subject. Must be between 3 and 60 characters long and
+     * contain only letters. Only the first letter of each word may be
+     * uppercase.
+     */
     @NotBlank(message = "Name is mandatory")
     @Size(min = 3, max = 60, message = "Name must contain between 3 and 60 characters")
     @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Z]?[a-z]{1,29}(?:[ ]|$)){1,}$",
             message = "Name must contain only letters. Only the first letter of each word may be uppercase")
     private String name;
-
-//    @NotBlank(message = "ECTS value is mandatory")
+    /**
+     * The number of ECTS credits assigned to the subject. Must be between 1 and
+     * 10.
+     */
     @Min(value = 1, message = "Minimal ects value is 1")
     @Max(value = 10, message = "Maximal ects value is 10")
     private int ects;
-    
+    /**
+     * The type of studies associated with the subject. This field is validated
+     * using a custom validator {@link MyStudiesTypeValidator}.
+     */
     @MyStudiesTypeValidator
-//    @Enumerated(EnumType.STRING)
     private StudiesType studiesType;
 
 }

@@ -22,6 +22,8 @@ import rs.ac.bg.fon.njt.webapp.service.EmployeeSubjectService;
 
 /**
  *
+ * Service implementation for managing employee subjects.
+ *
  * @author aleks
  */
 @Service
@@ -42,6 +44,16 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
     @Autowired
     private EmployeeSubjectIdMapper empSubIDMapper;
 
+    /**
+     * Saves an employee subject association.
+     *
+     * This method saves the provided EmployeeSubjectDto in the database.
+     *
+     * @param dto The EmployeeSubjectDto to be saved.
+     * @return The saved EmployeeSubjectDto.
+     * @throws InvalidDataException if the provided dto is null, or if any
+     * required data is missing, or if the employee or subject does not exist.
+     */
     @Override
     public EmployeeSubjectDto save(EmployeeSubjectDto dto) {
         if (dto == null) {
@@ -76,10 +88,17 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
         return empSubMapper.employeeSubjectToEmployeeSubjectDto(empSubRep.save(employeeSubject));
     }
 
-//    @Override
-//    public List<EmployeeSubjectDto> saveAll(List<EmployeeSubjectDto> list) {
-//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-//    }
+    /**
+     * Saves changes to employee subject associations.
+     *
+     * This method saves changes to the employee subject associations specified
+     * in the 'toSave' list and deletes associations specified in the 'toDelete'
+     * list.
+     *
+     * @param toSave List of EmployeeSubjectDto objects to be saved or updated.
+     * @param toDelete List of EmployeeSubjectDto objects to be deleted.
+     * @return null.
+     */
     @Override
     @Transactional
     public List<EmployeeSubjectDto> saveChanges(List<EmployeeSubjectDto> toSave, List<EmployeeSubjectDto> toDelete) {
@@ -92,6 +111,17 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
         return null;
     }
 
+    /**
+     * Edits an employee subject association.
+     *
+     * This method edits the provided EmployeeSubjectDto in the database.
+     *
+     * @param dto The EmployeeSubjectDto to be edited.
+     * @return The edited EmployeeSubjectDto.
+     * @throws InvalidDataException if the provided dto is null, or if any
+     * required data is missing, or if the employee or subject does not exist,
+     * or if the employee does not have the specified subject.
+     */
     @Override
     public EmployeeSubjectDto edit(EmployeeSubjectDto dto) {
         if (dto == null) {
@@ -127,6 +157,18 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
         return empSubMapper.employeeSubjectToEmployeeSubjectDto(empSubRep.save(employeeSubject));
     }
 
+    /**
+     * Finds employee subject associations by employee ID.
+     *
+     * This method retrieves all employee subject associations for the employee
+     * with the specified ID.
+     *
+     * @param id The ID of the employee.
+     * @return A list of EmployeeSubjectDto objects representing the
+     * associations.
+     * @throws InvalidDataException if the provided ID is null or if no employee
+     * with the specified ID exists.
+     */
     @Override
     public List<EmployeeSubjectDto> findByEmployee(Long id) {
         if (id == null) {
@@ -141,6 +183,18 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
         return employeeSubjectDtos;
     }
 
+    /**
+     * Finds employee subject associations by subject ID.
+     *
+     * This method retrieves all employee subject associations for the subject
+     * with the specified ID.
+     *
+     * @param id The ID of the subject.
+     * @return A list of EmployeeSubjectDto objects representing the
+     * associations.
+     * @throws InvalidDataException if the provided ID is null or if no subject
+     * with the specified ID exists.
+     */
     @Override
     public List<EmployeeSubjectDto> findBySubject(Long id) {
         if (id == null) {
@@ -155,6 +209,15 @@ public class EmployeeSubjectServiceImpl implements EmployeeSubjectService {
         return employeeSubjectDtos;
     }
 
+    /**
+     * Deletes an employee subject association.
+     *
+     * This method deletes the provided EmployeeSubjectDto from the database.
+     *
+     * @param dto The EmployeeSubjectDto to be deleted.
+     * @throws InvalidDataException if the provided dto is null, or if any
+     * required data is missing, or if the employee or subject does not exist.
+     */
     @Override
     public void delete(EmployeeSubjectDto dto) {
         if (dto == null) {

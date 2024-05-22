@@ -9,10 +9,28 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import rs.ac.bg.fon.njt.webapp.domain.Department;
 
 /**
+ * Repository interface for accessing and managing Department entities in the
+ * database.
  *
  * @author aleks
  */
-public interface DepartmentRepository extends JpaRepository<Department, Long>{
+public interface DepartmentRepository extends JpaRepository<Department, Long> {
+
+    /**
+     * Finds a Department by its name.
+     *
+     * @param name The name of the Department.
+     * @return An Optional containing the found Department, or empty if not
+     * found.
+     */
     Optional<Department> findByName(String name);
+
+    /**
+     * Finds a Department by its short name.
+     *
+     * @param shortName The short name of the Department.
+     * @return An Optional containing the found Department, or empty if not
+     * found.
+     */
     Optional<Department> findByShortName(String shortName);
 }

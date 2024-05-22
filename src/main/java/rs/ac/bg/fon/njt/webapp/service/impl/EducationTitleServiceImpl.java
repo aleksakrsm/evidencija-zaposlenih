@@ -17,7 +17,28 @@ import rs.ac.bg.fon.njt.webapp.repository.EducationTitleRepository;
 import rs.ac.bg.fon.njt.webapp.service.EducationTitleService;
 
 /**
+ * Service implementation for managing education titles. Provides methods for
+ * saving, editing, finding, and deleting education titles.
  *
+ * This class interacts with the database through
+ * {@link EducationTitleRepository} and utilizes {@link EducationTitleMapper}
+ * for DTO-to-entity mapping.
+ *
+ * @see EducationTitleService
+ * @see EducationTitleRepository
+ * @see EducationTitleMapper
+ * @see EducationTitleDto
+ * @see EducationTitle
+ * @see InvalidDataException
+ *
+ * This implementation ensures that:
+ * <ul>
+ * <li>An education title cannot be saved if another title with the same ID or
+ * name already exists.
+ * <li>An education title cannot be edited if it does not exist or if another
+ * title with the same name already exists.
+ * <li>An education title cannot be deleted if it does not exist.
+ * </ul>
  * @author aleks
  */
 @Service
@@ -29,13 +50,22 @@ public class EducationTitleServiceImpl implements EducationTitleService {
     @Autowired
     private EducationTitleMapper educationTitleMapper;
 
+    /**
+     * Saves a new education title.
+     *
+     * @param educationTitleDto The DTO of the education title to save.
+     * @return The saved EducationTitleDto.
+     * @throws InvalidDataException if an education title with the same ID or
+     * name already exists.
+     */
     @Override
     public EducationTitleDto save(EducationTitleDto educationTitleDto) {
         Optional<EducationTitle> optional;
         if (educationTitleDto.getId() != null) {
             optional = educationTitleRepository.findById(educationTitleDto.getId());
-            if(optional.isPresent())
+            if (optional.isPresent()) {
                 throw new InvalidDataException("vec postoji titula sa ovim id!");
+            }
         }
 
         optional = null;
@@ -50,6 +80,14 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         );
     }
 
+    /**
+     * Edits an existing education title.
+     *
+     * @param educationTitleDto The DTO of the education title to edit.
+     * @return The edited EducationTitleDto.
+     * @throws InvalidDataException if the education title does not exist or if
+     * another title with the same name already exists.
+     */
     @Override
     public EducationTitleDto edit(EducationTitleDto educationTitleDto) {
         Optional<EducationTitle> optional = educationTitleRepository.findById(educationTitleDto.getId());
@@ -67,6 +105,11 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         );
     }
 
+    /**
+     * Finds all education titles.
+     *
+     * @return A list of EducationTitleDto.
+     */
     @Override
     public List<EducationTitleDto> findAll() {
         return educationTitleRepository.findAll().stream().map(
@@ -74,6 +117,14 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         ).collect(Collectors.toList());
     }
 
+    /**
+     * Finds an education title by its ID.
+     *
+     * @param id The ID of the education title.
+     * @return The EducationTitleDto with the given ID.
+     * @throws InvalidDataException if no education title exists with the given
+     * ID.
+     */
     @Override
     public EducationTitleDto findById(Long id) {
         Optional<EducationTitle> optional = educationTitleRepository.findById(id);
@@ -84,6 +135,14 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         }
     }
 
+    /**
+     * Finds an education title by its name.
+     *
+     * @param name The name of the education title.
+     * @return The EducationTitleDto with the given name.
+     * @throws InvalidDataException if no education title exists with the given
+     * name.
+     */
     @Override
     public EducationTitleDto findByName(String name) {
         Optional<EducationTitle> optional = educationTitleRepository.findByName(name);
@@ -94,6 +153,13 @@ public class EducationTitleServiceImpl implements EducationTitleService {
         }
     }
 
+    /**
+     * Deletes an education title by its ID.
+     *
+     * @param id The ID of the education title to delete.
+     * @throws InvalidDataException if no education title exists with the given
+     * ID.
+     */
     @Override
     public void delete(Long id) {
         Optional<EducationTitle> optional = educationTitleRepository.findById(id);

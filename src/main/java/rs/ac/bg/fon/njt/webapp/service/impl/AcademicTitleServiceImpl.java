@@ -17,6 +17,28 @@ import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.exception.InvalidDataException;
 
 /**
+ * Implementation of the {@link AcademicTitleService} interface. Provides
+ * methods for managing academic titles, including saving, editing, finding, and
+ * deleting academic titles.
+ *
+ * This class uses {@link AcademicTitleRepository} to interact with the database
+ * and {@link AcademicTitleMapper} to map between DTOs and entities.
+ *
+ * @see AcademicTitleService
+ * @see AcademicTitleRepository
+ * @see AcademicTitleMapper
+ * @see AcademicTitleDto
+ * @see AcademicTitle
+ * @see InvalidDataException 
+ * 
+ * This implementation ensures that:
+ * <ul>
+ * <li>An academic title cannot be saved if another title with the same ID or
+ * name already exists.
+ * <li>An academic title cannot be edited if it does not exist or if another
+ * title with the same name already exists.
+ * <li>An academic title cannot be deleted if it does not exist.
+ * </ul>
  *
  * @author aleks
  */
@@ -29,13 +51,22 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
     @Autowired
     private AcademicTitleMapper academicTitleMapper;
 
+    /**
+     * Saves a new academic title.
+     *
+     * @param academicTitleDto The DTO of the academic title to save.
+     * @return The saved AcademicTitleDto.
+     * @throws InvalidDataException if an academic title with the same ID or
+     * name already exists.
+     */
     @Override
     public AcademicTitleDto save(AcademicTitleDto academicTitleDto) {
         Optional<AcademicTitle> optional;
         if (academicTitleDto.getId() != null) {
             optional = academicTitleRepository.findById(academicTitleDto.getId());
-            if(optional.isPresent())
+            if (optional.isPresent()) {
                 throw new InvalidDataException("vec postoji titula sa ovim id!");
+            }
         }
 
         optional = null;
@@ -50,6 +81,14 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
         );
     }
 
+    /**
+     * Edits an existing academic title.
+     *
+     * @param academicTitleDto The DTO of the academic title to edit.
+     * @return The edited AcademicTitleDto.
+     * @throws InvalidDataException if the academic title does not exist or if
+     * an academic title with the same name already exists.
+     */
     @Override
     public AcademicTitleDto edit(AcademicTitleDto academicTitleDto) {
         Optional<AcademicTitle> optional = academicTitleRepository.findById(academicTitleDto.getId());
@@ -67,6 +106,11 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
         );
     }
 
+    /**
+     * Finds all academic titles.
+     *
+     * @return A list of AcademicTitleDto.
+     */
     @Override
     public List<AcademicTitleDto> findAll() {
         return academicTitleRepository.findAll().stream().map(
@@ -74,6 +118,14 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
         ).collect(Collectors.toList());
     }
 
+    /**
+     * Finds an academic title by its ID.
+     *
+     * @param id The ID of the academic title.
+     * @return The AcademicTitleDto with the given ID.
+     * @throws InvalidDataException if no academic title exists with the given
+     * ID.
+     */
     @Override
     public AcademicTitleDto findById(Long id) {
         Optional<AcademicTitle> optional = academicTitleRepository.findById(id);
@@ -84,6 +136,14 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
         }
     }
 
+    /**
+     * Finds an academic title by its name.
+     *
+     * @param name The name of the academic title.
+     * @return The AcademicTitleDto with the given name.
+     * @throws InvalidDataException if no academic title exists with the given
+     * name.
+     */
     @Override
     public AcademicTitleDto findByName(String name) {
         Optional<AcademicTitle> optional = academicTitleRepository.findByName(name);
@@ -94,6 +154,13 @@ public class AcademicTitleServiceImpl implements AcademicTitleService {
         }
     }
 
+    /**
+     * Deletes an academic title by its ID.
+     *
+     * @param id The ID of the academic title to delete.
+     * @throws InvalidDataException if no academic title exists with the given
+     * ID.
+     */
     @Override
     public void delete(Long id) {
         Optional<AcademicTitle> optional = academicTitleRepository.findById(id);

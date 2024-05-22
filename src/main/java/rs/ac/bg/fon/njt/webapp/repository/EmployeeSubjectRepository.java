@@ -12,13 +12,29 @@ import rs.ac.bg.fon.njt.webapp.domain.EmployeeSubject;
 import rs.ac.bg.fon.njt.webapp.domain.EmployeeSubjectID;
 
 /**
+ * Repository interface for accessing and managing EmployeeSubject entities in
+ * the database.
  *
  * @author aleks
  */
 @Repository
-public interface EmployeeSubjectRepository extends JpaRepository<EmployeeSubject, EmployeeSubjectID>{
+public interface EmployeeSubjectRepository extends JpaRepository<EmployeeSubject, EmployeeSubjectID> {
+
+    /**
+     * Retrieves a list of EmployeeSubject entities by the employee ID.
+     *
+     * @param id The ID of the employee.
+     * @return A list of EmployeeSubject entities associated with the specified
+     * employee ID.
+     */
     List<EmployeeSubject> findByIdEmployeeId(Long id);
+
+    /**
+     * Retrieves a list of EmployeeSubject entities by the subject ID.
+     *
+     * @param id The ID of the subject.
+     * @return A list of EmployeeSubject entities associated with the specified
+     * subject ID.
+     */
     List<EmployeeSubject> findByIdSubjectId(Long id);
-//    @Query(value = "SELECT * FROM employeesubject WHERE employee = :employeeId ORDER BY begin_date ASC ", nativeQuery = true)
-//    List<EmployeeSubject> findBySubjectIdOrderByBe(@Param("employeeId") Long employeeId);
 }

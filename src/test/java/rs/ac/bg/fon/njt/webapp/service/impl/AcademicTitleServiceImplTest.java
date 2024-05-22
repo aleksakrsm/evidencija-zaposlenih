@@ -24,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import rs.ac.bg.fon.njt.webapp.converter.AcademicTitleMapper;
-import rs.ac.bg.fon.njt.webapp.converter.AcademicTitleMapperImpl;
 import rs.ac.bg.fon.njt.webapp.domain.AcademicTitle;
 import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.repository.AcademicTitleRepository;

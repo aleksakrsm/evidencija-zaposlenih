@@ -10,10 +10,19 @@ import org.springframework.stereotype.Repository;
 import rs.ac.bg.fon.njt.webapp.domain.User;
 
 /**
+ * Repository interface for accessing and managing User entities in the
+ * database.
  *
  * @author aleks
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, Long> {
+
+    /**
+     * Finds a User by its username.
+     *
+     * @param username  The username of the User.
+     * @return An Optional containing the found User, or empty if not found.
+     */
     Optional<User> findByUsername(String username);
 }

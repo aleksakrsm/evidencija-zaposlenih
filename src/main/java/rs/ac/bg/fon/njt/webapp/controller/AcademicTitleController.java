@@ -22,6 +22,10 @@ import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
 import rs.ac.bg.fon.njt.webapp.service.AcademicTitleService;
 
 /**
+ * Controller for handling operations related to Academic Titles. This
+ * controller provides endpoints for retrieving, creating, updating, and
+ * deleting academic titles. Access to certain endpoints is restricted to users
+ * with the 'ADMIN' role.
  *
  * @author aleks
  */
@@ -33,6 +37,12 @@ public class AcademicTitleController {
     @Autowired
     private AcademicTitleService academicTitleService;
 
+    /**
+     * Endpoint to get all academic titles.
+     *
+     * @return ResponseEntity containing a list of all academic titles and HTTP
+     * status OK.
+     */
     @GetMapping("/getAll")
     public ResponseEntity getAll() {
         System.out.println("--------controller--------");
@@ -41,27 +51,64 @@ public class AcademicTitleController {
         return ResponseEntity.status(HttpStatus.OK).body(academicTitleService.findAll());
     }
 
+    /**
+     * Endpoint to get an academic title by its ID.
+     *
+     * @param id The ID of the academic title.
+     * @return ResponseEntity containing the academic title with the specified
+     * ID and HTTP status OK.
+     */
     @GetMapping("/get/{id}")
     public ResponseEntity getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(academicTitleService.findById(id));
     }
 
+    /**
+     * Endpoint to save a new academic title.
+     *
+     * @param academicTitleDto The DTO representing the academic title to be
+     * saved.
+     * @return ResponseEntity containing the saved academic title and HTTP
+     * status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/save")
     public ResponseEntity save(@Valid @RequestBody AcademicTitleDto academicTitleDto) {
         return ResponseEntity.status(HttpStatus.OK).body(academicTitleService.save(academicTitleDto));
     }
 
+    /**
+     * Endpoint to get an academic title by its name.
+     *
+     * @param name The name of the academic title.
+     * @return ResponseEntity containing the academic title with the specified
+     * name and HTTP status OK.
+     */
     @GetMapping("/get/name/{name}")
     public ResponseEntity getByName(@PathVariable String name) {
         return new ResponseEntity(academicTitleService.findByName(name), HttpStatus.OK);
     }
+
+    /**
+     * Endpoint to delete an academic title by its ID.
+     *
+     * @param id The ID of the academic title to be deleted.
+     * @return ResponseEntity with a success message and HTTP status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
         academicTitleService.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("izbrisana je titula sa id: " + id);
     }
+
+    /**
+     * Endpoint to update an existing academic title.
+     *
+     * @param dto The DTO representing the updated academic title.
+     * @return ResponseEntity containing the updated academic title and HTTP
+     * status OK.
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity update(@Valid @RequestBody AcademicTitleDto dto) {

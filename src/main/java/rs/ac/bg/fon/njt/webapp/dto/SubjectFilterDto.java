@@ -14,6 +14,8 @@ import lombok.ToString;
 import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 
 /**
+ * Data Transfer Object (DTO) representing a filter for subjects. This class
+ * encapsulates filtering criteria for subjects based on their studies type.
  *
  * @author aleks
  */
@@ -22,8 +24,9 @@ import rs.ac.bg.fon.njt.webapp.domain.enums.StudiesType;
 @AllArgsConstructor
 @ToString
 public class SubjectFilterDto {
-//    @Enumerated(EnumType.STRING)
-//    private String studiesType;
+
+    /**
+     * The studies type used as a filter criterion.
+     */
     private StudiesType studiesType;
-//    private List<StudiesType> studiesTypes;
 }
