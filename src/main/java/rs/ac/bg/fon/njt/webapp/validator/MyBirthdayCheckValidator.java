@@ -7,6 +7,7 @@ package rs.ac.bg.fon.njt.webapp.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
+import lombok.NoArgsConstructor;
 
 /**
  * Validates if a given LocalDate represents a valid birthday. A valid birthday
@@ -14,7 +15,8 @@ import java.time.LocalDate;
  *
  * @author aleks
  */
-class MyBirthdayCheckValidator implements ConstraintValidator<MyBirthdayValidator, LocalDate> {
+@NoArgsConstructor
+public class MyBirthdayCheckValidator implements ConstraintValidator<MyBirthdayValidator, LocalDate> {
 
     /**
      * Checks if the given LocalDate is a valid birthday.

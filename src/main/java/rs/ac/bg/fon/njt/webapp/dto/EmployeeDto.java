@@ -50,6 +50,7 @@ public class EmployeeDto {
      * between 3 and 30 characters. It must start with a capital letter and
      * contain only letters.
      */
+    @NotNull
     @NotBlank(message = "Firstname is mandatory")
     @Size(min = 3, max = 30, message = "Firstname must contain between 3 and 30 characters")
     @Pattern(regexp = "^[A-Z][a-z]+$",
@@ -60,6 +61,7 @@ public class EmployeeDto {
      * between 3 and 30 characters. It must start with a capital letter and
      * contain only letters.
      */
+    @NotNull
     @NotBlank(message = "Lastname is mandatory")
     @Size(min = 3, max = 30, message = "Lastname must contain between 3 and 30 characters")
     @Pattern(regexp = "^[A-Z][a-z]+$",

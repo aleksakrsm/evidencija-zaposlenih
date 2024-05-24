@@ -5,6 +5,7 @@
 package rs.ac.bg.fon.njt.webapp.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,7 @@ public class DepartmentDto {
      * The name of the department. It must be between 3 and 100 characters long,
      * and only the first letter of each word may be uppercase.
      */
+    @NotNull
     @NotBlank(message = "Name is mandatory")
     @Size(min = 3, max = 100, message = "Name must contain between 3 and 100 characters")
     @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Z]?[a-z]{1,29}(?:[ ]|$)){1,}$",
@@ -51,6 +53,7 @@ public class DepartmentDto {
      * The short name of the department. It must be between 2 and 20 characters
      * long, and consist of uppercase letters only.
      */
+    @NotNull
     @NotBlank(message = "Short name is mandatory")
     @Size(min = 2, max = 20, message = "Short name must contain between 2 and 20 characters")
     @Pattern(regexp = "^[A-Z]+$",

@@ -5,6 +5,7 @@
 package rs.ac.bg.fon.njt.webapp.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -42,6 +43,7 @@ public class AcademicTitleDto {
      * The name of the academic title. It must be between 3 and 30 characters
      * long, and only the first letter of each word may be uppercase.
      */
+    @NotNull
     @NotBlank(message = "Name is mandatory")
     @Size(min = 3, max = 30, message = "Name must contain between 3 and 30 characters")
     @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Z]?[a-z]{1,29}(?:[ ]|$)){1,}$",

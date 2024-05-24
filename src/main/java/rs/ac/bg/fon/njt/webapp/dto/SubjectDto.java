@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,10 +42,12 @@ public class SubjectDto {
      * contain only letters. Only the first letter of each word may be
      * uppercase.
      */
+    @NotNull
     @NotBlank(message = "Name is mandatory")
     @Size(min = 3, max = 60, message = "Name must contain between 3 and 60 characters")
-    @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Z]?[a-z]{1,29}(?:[ ]|$)){1,}$",
-            message = "Name must contain only letters. Only the first letter of each word may be uppercase")
+//    @Pattern(regexp = "^(?:(?=\\S)(?![ ])[A-Z]?[a-z]{1,29}(?:[ ]|$)){1,}(?:([ ][1-9]))?$",
+    @Pattern(regexp = "^[A-Z][a-z]{1,29}(?: [A-Z]?[a-z]{1,29})*(?: [1-9])?$",
+            message = "Only the first letter of each word may be uppercase")
     private String name;
     /**
      * The number of ECTS credits assigned to the subject. Must be between 1 and
