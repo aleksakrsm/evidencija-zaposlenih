@@ -1,22 +1,6 @@
-/*
-SQLyog Community
-MySQL - 8.0.39 : Database - fakultet_projekat
-*********************************************************************
-*/
-
-/*!40101 SET NAMES utf8 */;
-
-/*!40101 SET SQL_MODE=''*/;
-
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`fakultet_projekat` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE `fakultet_projekat`;
 
 USE `fakultet_projekat`;
-
-/*Table structure for table `_user` */
 
 DROP TABLE IF EXISTS `_user`;
 
@@ -29,7 +13,7 @@ CREATE TABLE `_user` (
   `password` varchar(200) NOT NULL,
   `role` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `_user` */
 
@@ -49,7 +33,7 @@ CREATE TABLE `academictitle` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `academictitle` */
 
@@ -70,7 +54,7 @@ CREATE TABLE `department` (
   `name` varchar(100) NOT NULL,
   `shortName` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `department` */
 
@@ -92,7 +76,7 @@ CREATE TABLE `educationtitle` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `educationtitle` */
 
@@ -121,7 +105,7 @@ CREATE TABLE `employee` (
   CONSTRAINT `zaposleniAkademskaTitulaFK` FOREIGN KEY (`academicTitle`) REFERENCES `academictitle` (`id`) ON UPDATE RESTRICT,
   CONSTRAINT `zaposleniKatedraFK` FOREIGN KEY (`department`) REFERENCES `department` (`id`) ON UPDATE RESTRICT,
   CONSTRAINT `zaposleniNivoObrazovanjaFK` FOREIGN KEY (`educationTitle`) REFERENCES `educationtitle` (`id`) ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `employee` */
 
@@ -143,17 +127,8 @@ insert  into `employee`(`id`,`firstname`,`lastname`,`birthday`,`department`,`aca
 (48,'Preldzija','Dorna','1931-01-02',1,1,1,'ACTIVE'),
 (49,'Petar','Milosevic','2002-12-03',1,5,1,'ACTIVE'),
 (50,'Petar','Kocic','1964-10-02',2,6,1,'ACTIVE'),
-(56,'Marko','Lazarevic','1994-07-05',2,1,1,'ACTIVE'),
-(57,'Marko','Lazarevic','1999-06-02',2,1,1,'ACTIVE'),
-(58,'Marko','Lazarevic','1999-09-04',2,1,1,'ACTIVE'),
-(59,'Marko','Lazarevic','1999-06-03',2,1,2,'ACTIVE'),
-(60,'Marko','Lazarevic','1999-02-02',2,1,2,'ACTIVE'),
-(61,'Marko','Lazarevic','1999-01-01',2,1,1,'ACTIVE'),
-(62,'Marko','Lazarevic','1999-02-03',2,1,2,'ACTIVE'),
 (63,'Marko','Lazarevic','1999-01-01',2,1,2,'ACTIVE'),
 (64,'Marko','Lazarevic','1977-01-02',2,2,2,'ACTIVE'),
-(65,'Aleksa','Aleksic','1999-01-05',2,3,2,'INACTIVE'),
-(66,'Aleksa','Aleksic','1999-12-01',2,3,2,'ACTIVE'),
 (67,'Aleksa','Aleksic','1999-12-21',2,3,2,'INACTIVE'),
 (68,'Aleksa','Krsmanovic','1999-06-21',1,6,3,'ACTIVE'),
 (69,'Todor','Todorovic','1999-06-21',2,1,2,'ACTIVE'),
@@ -176,7 +151,7 @@ CREATE TABLE `employeeacademictitle` (
   KEY `academicTitle` (`academicTitle`),
   CONSTRAINT `employeeacademictitle_ibfk_1` FOREIGN KEY (`employee`) REFERENCES `employee` (`id`) ON UPDATE RESTRICT,
   CONSTRAINT `employeeacademictitle_ibfk_2` FOREIGN KEY (`academicTitle`) REFERENCES `academictitle` (`id`) ON UPDATE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `employeeacademictitle` */
 
@@ -198,18 +173,12 @@ CREATE TABLE `employeesubject` (
   KEY `subject` (`subject`),
   CONSTRAINT `employeesubject_ibfk_1` FOREIGN KEY (`employee`) REFERENCES `employee` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `employeesubject_ibfk_2` FOREIGN KEY (`subject`) REFERENCES `subject` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `employeesubject` */
 
 insert  into `employeesubject`(`employee`,`subject`,`class_type`) values 
-(1,1,'LECTURES'),
-(1,4,'PRACTICALS'),
-(24,1,'LECTURES'),
-(27,5,'LECTURES'),
-(36,5,'PRACTICALS'),
-(45,4,'LECTURES'),
-(56,1,'PRACTICALS');
+(1,1,'LECTURES');
 
 /*Table structure for table `subject` */
 
@@ -221,7 +190,7 @@ CREATE TABLE `subject` (
   `ects` int unsigned NOT NULL,
   `studiestype` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+);
 
 /*Data for the table `subject` */
 
@@ -234,8 +203,3 @@ insert  into `subject`(`id`,`name`,`ects`,`studiestype`) values
 (6,'Fmir',3,'MASTER'),
 (7,'Marketing',5,'UNDERGRADUATE'),
 (8,'Ekonomija',7,'SPECIALIZED');
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
