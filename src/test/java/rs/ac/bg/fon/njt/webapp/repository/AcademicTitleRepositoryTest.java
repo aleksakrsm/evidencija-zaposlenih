@@ -22,10 +22,6 @@ import rs.ac.bg.fon.njt.webapp.dto.AcademicTitleDto;
  *
  * @author aleks
  */
-//@DataJpaTest(properties = {
-//    "spring.datasource.url=jdbc:h2:mem:testdb",
-//    "spring.jpa.hibernate.ddl-auto=create-drop"
-//})
 @DataJpaTest
 public class AcademicTitleRepositoryTest {
 

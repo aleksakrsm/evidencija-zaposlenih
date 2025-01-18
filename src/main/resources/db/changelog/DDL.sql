@@ -2,11 +2,9 @@
 
 -- changeset Aleksa Krsmanovic:DDL
 
-USE `fakultet_projekat`;
-
 CREATE TABLE `_user`
 (
-    `id`        bigint unsigned NOT NULL AUTO_INCREMENT,
+    `id`        bigint NOT NULL AUTO_INCREMENT,
     `firstname` varchar(40)  NOT NULL,
     `lastname`  varchar(40)  NOT NULL,
     `username`  varchar(40)  NOT NULL,
@@ -18,14 +16,14 @@ CREATE TABLE `_user`
 
 CREATE TABLE `academictitle`
 (
-    `id`   bigint unsigned NOT NULL AUTO_INCREMENT,
+    `id`   bigint NOT NULL AUTO_INCREMENT,
     `name` varchar(50) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `department`
 (
-    `id`        bigint unsigned NOT NULL AUTO_INCREMENT,
+    `id`        bigint NOT NULL AUTO_INCREMENT,
     `name`      varchar(100) NOT NULL,
     `shortName` varchar(50) DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -33,34 +31,35 @@ CREATE TABLE `department`
 
 CREATE TABLE `educationtitle`
 (
-    `id`   bigint unsigned NOT NULL AUTO_INCREMENT,
+    `id`   bigint NOT NULL AUTO_INCREMENT,
     `name` varchar(30) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `employee`
 (
-    `id`             bigint unsigned NOT NULL AUTO_INCREMENT,
+    `id`             bigint NOT NULL AUTO_INCREMENT,
     `firstname`      varchar(30) NOT NULL,
     `lastname`       varchar(30) NOT NULL,
     `birthday`       date        NOT NULL,
-    `department`     bigint unsigned NOT NULL,
-    `academicTitle`  bigint unsigned NOT NULL,
-    `educationTitle` bigint unsigned DEFAULT NULL,
+    `department`     bigint NOT NULL,
+    `academicTitle`  bigint NOT NULL,
+    `educationTitle` bigint DEFAULT NULL,
     `status`         varchar(10) NOT NULL,
     PRIMARY KEY (`id`),
-    KEY              `zaposleniKatedraFK` (`department`),
-    KEY              `zaposleniAkademskaTitulaFK` (`academicTitle`),
-    KEY              `zaposleniNivoObrazovanjaFK` (`educationTitle`),
+    KEY `zaposleniKatedraFK` (`department`),
+    KEY `zaposleniAkademskaTitulaFK` (`academicTitle`),
+    KEY `zaposleniNivoObrazovanjaFK` (`educationTitle`),
     CONSTRAINT `zaposleniAkademskaTitulaFK` FOREIGN KEY (`academicTitle`) REFERENCES `academictitle` (`id`) ON UPDATE RESTRICT,
     CONSTRAINT `zaposleniKatedraFK` FOREIGN KEY (`department`) REFERENCES `department` (`id`) ON UPDATE RESTRICT,
     CONSTRAINT `zaposleniNivoObrazovanjaFK` FOREIGN KEY (`educationTitle`) REFERENCES `educationtitle` (`id`) ON UPDATE SET NULL
 );
 
+
 CREATE TABLE `employeeacademictitle`
 (
-    `employee`      bigint unsigned NOT NULL,
-    `academicTitle` bigint unsigned NOT NULL,
+    `employee`      bigint  NOT NULL,
+    `academicTitle` bigint NOT NULL,
     `begin_date`    date NOT NULL,
     `end_date`      date DEFAULT NULL,
     PRIMARY KEY (`employee`, `academicTitle`, `begin_date`),
@@ -71,17 +70,17 @@ CREATE TABLE `employeeacademictitle`
 
 CREATE TABLE `subject`
 (
-    `id`          bigint unsigned NOT NULL AUTO_INCREMENT,
+    `id`          bigint NOT NULL AUTO_INCREMENT,
     `name`        varchar(60)                                                  NOT NULL,
-    `ects`        int unsigned NOT NULL,
+    `ects`        int NOT NULL,
     `studiestype` varchar(20) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
 CREATE TABLE `employeesubject`
 (
-    `employee`   bigint unsigned NOT NULL,
-    `subject`    bigint unsigned NOT NULL,
+    `employee`   bigint NOT NULL,
+    `subject`    bigint NOT NULL,
     `class_type` varchar(35) NOT NULL,
     PRIMARY KEY (`employee`, `subject`),
     KEY          `subject` (`subject`),
