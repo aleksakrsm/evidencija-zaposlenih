@@ -14,6 +14,7 @@
     <include file="fill_user_table.sql" relativeToChangelogFile="true" />
     <include file="fill_employee_academic_title_table.sql" relativeToChangelogFile="true" />
     <include file="fill_employee_subject.sql" relativeToChangelogFile="true" />
+    <include file="add_new_subject.sql" relativeToChangelogFile="true" />
 
 <!--    <include file="db.changelog-1.0-initial-setup.xml" relativeToChangelogFile="true" />-->
 

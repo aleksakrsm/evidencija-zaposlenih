@@ -56,13 +56,13 @@ public class AuthenticationService {
     private String randomString;
     private String email;
 
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
+//    public void setMailSender(MailSender mailSender) {
+//        this.mailSender = mailSender;
+//    }
 
-    public void setTemplateMessage(SimpleMailMessage templateMessage) {
-        this.templateMessage = templateMessage;
-    }
+//    public void setTemplateMessage(SimpleMailMessage templateMessage) {
+//        this.templateMessage = templateMessage;
+//    }
 
     public String getJwtAndSendEmail(RegPageLinkDto dto) {
         String token = jwtService.generateSimpleExpirationToken(dto.getRandomString());
@@ -79,24 +79,34 @@ public class AuthenticationService {
                 + link
                 + "\nAko niste zeleli da napravite nalog na stranici za evidenciju zaposlenih, ignorisite ovaj mejl.\nHvala";
         mailMessage.setText(mailTxt);
-        mailMessage.setFrom("MS_0qqejK@trial-zr6ke4nerqm4on12.mlsender.net");
+        mailMessage.setFrom("ak20180030@student.fon.bg.ac.rs");
         mailMessage.setSubject("Registracija");
 //        System.out.println(mailTxt);
         
         mailSender = new JavaMailSenderImpl();
         JavaMailSenderImpl implSender = (JavaMailSenderImpl) mailSender;
-        
-        Properties properties = new Properties();
-        properties.setProperty("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true");
-        properties.setProperty("mail.smtp.from", "MS_0qqejK@trial-zr6ke4nerqm4on12.mlsender.net");
-        implSender.setJavaMailProperties(properties);
+        implSender.setHost("smtp.office365.com");
         implSender.setPort(587);
-        implSender.setHost("smtp.mailersend.net");
-        implSender.setUsername("MS_0qqejK@trial-zr6ke4nerqm4on12.mlsender.net");
-        implSender.setPassword("F6jokTwySK8kyV3z");
-        
-        mailSender.send(mailMessage);
+        implSender.setUsername("ak20180030@student.fon.bg.ac.rs");
+        implSender.setPassword("KRS3414ale.");
+//        implSender.;
+        Properties props = implSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true"); // Enable STARTTLS
+        props.put("mail.debug", "true");
+
+//        Properties properties = new Properties();
+//        properties.setProperty("mail.smtp.auth", "true");
+//        properties.setProperty("mail.smtp.starttls.enable", "true");
+//        properties.setProperty("mail.smtp.from", "MS_0qqejK@trial-zr6ke4nerqm4on12.mlsender.net");
+//        implSender.setJavaMailProperties(properties);
+//        implSender.setPort(587);
+//        implSender.setHost("smtp.mailersend.net");
+//        implSender.setUsername("MS_0qqejK@trial-zr6ke4nerqm4on12.mlsender.net");
+//        implSender.setPassword("F6jokTwySK8kyV3z");
+
+        implSender.send(mailMessage);
         return token;
     }
 
