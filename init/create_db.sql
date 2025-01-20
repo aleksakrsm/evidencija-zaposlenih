@@ -1,0 +1,1 @@
+CREATE DATABASE fakultet_projekat;
