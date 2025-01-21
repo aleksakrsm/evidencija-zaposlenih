@@ -8,6 +8,16 @@ services:
 #    image: evidencija_zaposlenih_image:latest
     ports:
       - "8080:8080"
+    restart: on-failure
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s  # Optional: delay before restarting the container
+    healthcheck:
+       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
+       interval: 30s
+       timeout: 5s
+       retries: 2  # Limit the number of health check retries
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/fakultet_projekat
       SPRING_DATASOURCE_USERNAME: root
